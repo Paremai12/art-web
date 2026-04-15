@@ -81,6 +81,28 @@ app.listen(3000, () => {
     console.log("http://localhost:3000");
 });
 
+//เพิ่ม
+
+// หน้าแรก
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/home.html");
+});
+
+// login
+app.get("/login", (req, res) => {
+  res.sendFile(__dirname + "/login.html");
+});
+
+// register
+app.get("/register", (req, res) => {
+  res.sendFile(__dirname + "/register.html");
+});
+
+// admin
+app.get("/admin", (req, res) => {
+  res.sendFile(__dirname + "/admin.html");
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
