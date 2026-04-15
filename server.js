@@ -3,19 +3,20 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
+
 app.use(express.json());
 app.use(express.static(__dirname));
 
 const filePath = path.join(__dirname, "doc", "users.json");
 
 // 📌 read
-function getUsers(){
+function getUsers() {
     if (!fs.existsSync(filePath)) return [];
     return JSON.parse(fs.readFileSync(filePath));
 }
 
 // 📌 save
-function saveUsers(users){
+function saveUsers(users) {
     fs.writeFileSync(filePath, JSON.stringify(users, null, 2));
 }
 
@@ -52,7 +53,7 @@ app.post("/login", (req, res) => {
     }
 });
 
-// 🔥 UPDATE SCORE
+// UPDATE SCORE
 app.post("/updateScore", (req, res) => {
     const { ig, score } = req.body;
 
@@ -71,40 +72,32 @@ app.post("/updateScore", (req, res) => {
     }
 });
 
-// 🔥 ADMIN GET USERS (Realtime)
+// ADMIN GET USERS
 app.get("/users", (req, res) => {
     const users = getUsers();
     res.json(users);
 });
 
-app.listen(3000, () => {
-    console.log("http://localhost:3000");
-});
-
-//เพิ่ม
-
-// หน้าแรก
+// หน้าเว็บ
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/home.html");
+    res.sendFile(path.join(__dirname, "home.html"));
 });
 
-// login
 app.get("/login", (req, res) => {
-  res.sendFile(__dirname + "/login.html");
+    res.sendFile(path.join(__dirname, "login.html"));
 });
 
-// register
 app.get("/register", (req, res) => {
-  res.sendFile(__dirname + "/register.html");
+    res.sendFile(path.join(__dirname, "register.html"));
 });
 
-// admin
 app.get("/admin", (req, res) => {
-  res.sendFile(__dirname + "/admin.html");
+    res.sendFile(path.join(__dirname, "admin.html"));
 });
 
+// 🔥 สำคัญสำหรับ Render
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log("Server running");
+    console.log("Server running on port " + PORT);
 });
