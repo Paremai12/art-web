@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Register</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #f3e8ff, #ede9fe, #ddd6fe);
+}
+
+.auth-card {
+    max-width: 520px;
+    margin: 60px auto;
+    border-radius: 24px;
+    border: none;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 60px rgba(124,58,237,0.15);
+}
+
+.auth-title {
+    font-weight: 600;
+    color: #6d28d9;
+}
+
+.form-control, .form-select {
+    border-radius: 12px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #a78bfa;
+    box-shadow: 0 0 0 0.2rem rgba(167,139,250,0.25);
+}
+
+.btn-purple {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    border-radius: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card auth-card p-4">
+
+<h4 class="text-center auth-title mb-4">✨ สมัครเล่น Events ✨</h4>
+
+<form id="registerForm">
+
+<div class="form-floating mb-3">
+<input type="text" class="form-control" id="name" placeholder="OC Name" required>
+<label>OC Name</label>
+</div>
+
+<div class="form-floating mb-3">
+<input type="text" class="form-control" id="ig" placeholder="Instagram" required>
+<label>Instagram OC</label>
+</div>
+
+<div class="form-floating mb-3">
+<input type="password" class="form-control" id="pw" placeholder="Password" required>
+<label>Password</label>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Faculty</label>
+<select class="form-select" id="faculty" required>
+<option disabled selected>Choose faculty</option>
+<option>Faculty of International Business</option>
+<option>Faculty of Engineering</option>
+<option>Faculty of Science & Technology</option>
+<option>Faculty of Humanities & Social Sciences</option>
+<option>Faculty of Communication & Digital Media</option>
+<option>Faculty of Arts & Design</option>
+<option>Faculty of Law</option>
+<option>Faculty of Medicine & Health Sciences</option>
+<option>Faculty of Hospitality & Tourism Management</option>
+<option>Faculty of International Education</option>
+<option>Faculty of Innovation & Emerging Technologies</option>
+<option>Faculty of Economics & Public Policy</option>
+<option>Faculty of Environmental & Sustainability Studies</option>
+<option>Faculty of Creative Industries</option>
+<option>Faculty of Culinary Arts & Food Science</option>
+<option>Faculty of Global Security & Diplomacy</option>
+<option>Faculty of Psychology & Behavioral Sciences</option>
+<option>Faculty of Criminology & Forensic Science</option>
+<option>Faculty of Aviation & Air Logistics</option>
+</select>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Year</label>
+<select class="form-select" id="year" required>
+<option disabled selected>Choose year</option>
+<option>Freshman (Year 1)</option>
+<option>Sophomore (Year 2)</option>
+<option>Junior (Year 3)</option>
+<option>Senior (Year 4)</option>
+<option>Fifth-year / Super Senior</option>
+</select>
+</div>
+
+<button class="btn btn-purple w-100 py-2">Register</button>
+
+</form>
+
+<div class="text-center mt-3">
+<a href="login.html">Back to login</a>
+</div>
+
+</div>
+</div>
+
+<script>
+document.getElementById("registerForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const user = {
+        name: name.value.trim(),
+        ig: ig.value.trim(),
+        password: pw.value.trim(),
+        faculty: faculty.value,
+        year: year.value
+    };
+
+    const res = await fetch("/register", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(user)
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+        alert("สมัครสำเร็จ 💜");
+        location.href = "login.html";
+    } else {
+        alert("IG ซ้ำ ❌");
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Catch Bugs ✨</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    margin:0;
+    overflow:hidden;
+    font-family:'Poppins',sans-serif;
+    background: linear-gradient(135deg,#fdf4ff,#f5e9ff,#ede9fe);
+}
+
+/* 🌈 animated background */
+.bg {
+    position:absolute;
+    width:200%;
+    height:200%;
+    background: radial-gradient(circle,#c084fc33,transparent 60%);
+    animation: moveBg 20s linear infinite;
+}
+@keyframes moveBg {
+    from {transform:translate(-10%,-10%);}
+    to {transform:translate(10%,10%);}
+}
+
+/* 💎 HUD */
+.hud {
+    display:flex;
+    justify-content:space-around;
+    padding:14px;
+    margin:15px;
+    border-radius:20px;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px rgba(168,85,247,0.25);
+    font-weight:600;
+    color:#6b21a8;
+}
+
+/* 🔥 combo bar */
+.combo-bar {
+    height:8px;
+    width:90%;
+    margin:auto;
+    background:#ede9fe;
+    border-radius:20px;
+    overflow:hidden;
+}
+.combo-fill {
+    height:100%;
+    width:0%;
+    background: linear-gradient(90deg,#a855f7,#7c3aed);
+    transition:0.2s;
+}
+
+/* 🎮 game area */
+#gameArea {
+    width:92%;
+    height:65vh;
+    margin:auto;
+    border-radius:30px;
+    position:relative;
+    overflow:hidden;
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(20px);
+    box-shadow: inset 0 0 30px rgba(168,85,247,0.15);
+}
+
+/* 🐛 bug */
+.bug {
+    position:absolute;
+    font-size:36px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.bug:hover {
+    transform:scale(1.5) rotate(8deg);
+    filter: drop-shadow(0 0 12px #c084fc);
+}
+
+/* 💥 hit effect */
+.hit {
+    position:absolute;
+    width:12px;
+    height:12px;
+    background:#c084fc;
+    border-radius:50%;
+    animation:explode 0.6s forwards;
+}
+@keyframes explode {
+    to {transform:scale(6); opacity:0;}
+}
+
+/* ✨ score popup */
+.score-pop {
+    position:absolute;
+    color:#7c3aed;
+    font-weight:bold;
+    animation:floatUp 1s forwards;
+}
+@keyframes floatUp {
+    to {transform:translateY(-60px); opacity:0;}
+}
+
+/* 💖 popup */
+.popup {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background: rgba(255,255,255,0.9);
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 20px 60px rgba(168,85,247,0.25);
+    max-width:420px;
+    text-align:center;
+    color:#6b21a8;
+}
+
+/* 💜 button */
+.btn-purple {
+    background: linear-gradient(135deg,#a855f7,#7c3aed);
+    color:white;
+    border:none;
+    border-radius:14px;
+    padding:10px 20px;
+}
+.btn-purple:hover {
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(168,85,247,0.3);
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<!-- RULE -->
+<div id="ruleScreen" class="popup">
+<h4>✨ Catch Bugs ✨</h4>
+<p style="font-size:14px;">
+จับแมลงให้ได้มากที่สุดใน 2 นาที!<br><br>
+🐛 +1 | 🐞 +5 | 🕷 -2 | 🦋 +10<br><br>
+🔥 Combo ได้โบนัสเพิ่ม<br>
+⚡ ยิ่งนาน แมลงยิ่งเร็วขึ้น<br><br>
+🎯 ทำคะแนนให้สูงที่สุดเพื่อชัยชนะ
+</p>
+<button class="btn btn-purple" onclick="startGame()">เริ่มเกม</button>
+</div>
+
+<!-- GAME -->
+<div id="gameScreen" style="display:none;">
+<div class="hud">
+    ⏱ <span id="time">120</span>
+    ⭐ <span id="score">0</span>
+    🏆 <span id="best">0</span>
+</div>
+
+<div class="combo-bar">
+    <div id="comboFill" class="combo-fill"></div>
+</div>
+
+<div id="gameArea"></div>
+</div>
+
+<!-- END -->
+<div id="endScreen" class="popup" style="display:none;">
+<h3 id="finalScore"></h3>
+<button class="btn btn-success" onclick="location.reload()">เล่นอีกครั้ง</button>
+</div>
+
+<audio id="clickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9bde1c.mp3"></audio>
+
+<script>
+let score=0,time=120,combo=0,lastClick=0,gameActive=false,timer,speed=600;
+
+const user=JSON.parse(localStorage.getItem("currentUser"));
+if(!user) location.href="login.html";
+
+document.getElementById("best").innerText=user.bestScore||0;
+
+function startGame(){
+    ruleScreen.style.display="none";
+    gameScreen.style.display="block";
+    gameActive=true;
+    timer=setInterval(updateTime,1000);
+    spawnLoop();
+}
+
+function updateTime(){
+    time--;
+    document.getElementById("time").innerText=time;
+
+    if(time%20===0 && speed>250) speed-=50;
+
+    if(time<=0) endGame();
+}
+
+function spawnLoop(){
+    if(!gameActive) return;
+    spawnBug();
+    setTimeout(spawnLoop,speed);
+}
+
+function spawnBug(){
+    const gameArea=document.getElementById("gameArea");
+
+    const bug=document.createElement("div");
+    bug.className="bug";
+
+    const types=[
+        {emoji:"🐛",point:1},
+        {emoji:"🐞",point:5},
+        {emoji:"🕷",point:-2},
+        {emoji:"🦋",point:10}
+    ];
+
+    const type=types[Math.floor(Math.random()*types.length)];
+    bug.innerText=type.emoji;
+
+    let x=Math.random()*80,y=Math.random()*60;
+    bug.style.left=x+"%";
+    bug.style.top=y+"%";
+
+    const move=setInterval(()=>{
+        x+=(Math.random()-0.5)*8;
+        y+=(Math.random()-0.5)*8;
+        bug.style.left=x+"%";
+        bug.style.top=y+"%";
+    },150);
+
+    bug.onclick=()=>{
+        clickSound.play();
+
+        let now=Date.now();
+        combo=(now-lastClick<700)?combo+1:0;
+        lastClick=now;
+
+        let gained=type.point+Math.floor(combo/3);
+        score+=gained;
+
+        document.getElementById("score").innerText=score;
+        document.getElementById("comboFill").style.width=(combo*10)+"%";
+
+        const hit=document.createElement("div");
+        hit.className="hit";
+        hit.style.left=bug.style.left;
+        hit.style.top=bug.style.top;
+        gameArea.appendChild(hit);
+
+        const pop=document.createElement("div");
+        pop.className="score-pop";
+        pop.innerText="+"+gained;
+        pop.style.left=bug.style.left;
+        pop.style.top=bug.style.top;
+        gameArea.appendChild(pop);
+
+        setTimeout(()=>{hit.remove(); pop.remove();},1000);
+
+        clearInterval(move);
+        bug.remove();
+    };
+
+    gameArea.appendChild(bug);
+    setTimeout(()=>{clearInterval(move);bug.remove();},2500);
+}
+
+async function endGame(){
+    gameActive=false;
+    clearInterval(timer);
+
+    gameScreen.style.display="none";
+    endScreen.style.display="block";
+
+    const res=await fetch("/updateScore",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({ig:user.ig,score:score})
+    });
+
+    const data=await res.json();
+
+    user.bestScore=data.bestScore;
+    localStorage.setItem("currentUser",JSON.stringify(user));
+
+    document.getElementById("finalScore").innerText=
+        `คุณได้ ${score} คะแนน 💜 Best: ${data.bestScore}`;
+}
+</script>
+
+</body>
+</html>
