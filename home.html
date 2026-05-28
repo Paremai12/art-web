@@ -25,27 +25,28 @@
             position: relative;
         }
 
+        /* Floating orbs background */
         .orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.4;
+            filter: blur(120px);
+            opacity: 0.5;
             animation: floatOrb 25s ease-in-out infinite;
         }
 
         .orb-1 {
             top: -20%;
             left: -10%;
-            width: 500px;
-            height: 500px;
+            width: 600px;
+            height: 600px;
             background: radial-gradient(circle, #f093fb, #f5576c);
         }
 
         .orb-2 {
             bottom: -20%;
             right: -10%;
-            width: 600px;
-            height: 600px;
+            width: 700px;
+            height: 700px;
             background: radial-gradient(circle, #4facfe, #00f2fe);
             animation-delay: -8s;
         }
@@ -53,11 +54,20 @@
         .orb-3 {
             top: 50%;
             left: 50%;
-            width: 400px;
-            height: 400px;
+            width: 500px;
+            height: 500px;
             background: radial-gradient(circle, #43e97b, #38f9d7);
             animation-delay: -15s;
             transform: translate(-50%, -50%);
+        }
+
+        .orb-4 {
+            top: 30%;
+            right: 20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #fa709a, #fee140);
+            animation-delay: -5s;
         }
 
         @keyframes floatOrb {
@@ -68,11 +78,11 @@
             }
 
             33% {
-                transform: translate(50px, -50px) scale(1.2);
+                transform: translate(60px, -60px) scale(1.2);
             }
 
             66% {
-                transform: translate(-30px, 30px) scale(0.8);
+                transform: translate(-40px, 40px) scale(0.8);
             }
         }
 
@@ -84,98 +94,115 @@
             flex-direction: column;
         }
 
+        /* Header */
         .game-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0.75rem 1.5rem;
             margin: 1rem 1.5rem 0 1.5rem;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(20px);
-            border-radius: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .user-info {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 6px 16px;
+            padding: 6px 18px;
             background: rgba(255, 255, 255, 0.2);
-            border-radius: 40px;
+            border-radius: 50px;
         }
 
         .user-avatar {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, #f093fb, #f5576c);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
         }
 
         .user-name {
             color: white;
             font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .btn-logout {
-            background: rgba(239, 68, 68, 0.8);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(220, 38, 38, 0.9));
             backdrop-filter: blur(10px);
             border: none;
-            border-radius: 40px;
-            padding: 8px 20px;
+            border-radius: 50px;
+            padding: 10px 24px;
             color: white;
             font-weight: 600;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .btn-logout:hover {
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
         }
 
+        /* HUD */
         .hud {
             display: flex;
             justify-content: space-between;
             padding: 1rem 2rem;
             margin: 0.5rem 1.5rem;
-            border-radius: 80px;
-            background: rgba(255, 255, 255, 0.2);
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.25);
         }
 
         .stat-card {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 8px 24px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 40px;
+            gap: 14px;
+            padding: 8px 28px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 60px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.02);
         }
 
         .stat-icon {
-            font-size: 1.8rem;
+            font-size: 2rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
         }
 
         .stat-value {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 800;
             color: white;
             line-height: 1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .stat-label {
             font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
         }
 
+        /* Combo */
         .combo-container {
             margin: 0 1.5rem 0.5rem 1.5rem;
         }
@@ -185,90 +212,109 @@
             justify-content: space-between;
             margin-bottom: 8px;
             color: white;
-            font-weight: 600;
-            font-size: 0.8rem;
+            font-weight: 700;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .combo-bar {
-            height: 8px;
+            height: 10px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .combo-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #f093fb, #f5576c);
+            background: linear-gradient(90deg, #f093fb, #f5576c, #ff6b6b);
             border-radius: 20px;
             transition: width 0.15s ease;
-            box-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
+            box-shadow: 0 0 15px rgba(240, 147, 251, 0.6);
+            position: relative;
         }
 
+        .combo-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
+            border-radius: 20px;
+        }
+
+        /* Game Area */
         .game-area {
             flex: 1;
             margin: 0 1.5rem 1.5rem 1.5rem;
-            border-radius: 32px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.25);
             position: relative;
             overflow: hidden;
             cursor: crosshair;
             min-height: 300px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
+        /* Bug */
         .bug {
             position: absolute;
             font-size: 3rem;
             cursor: pointer;
-            transition: transform 0.1s ease, filter 0.1s ease;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            transition: transform 0.15s cubic-bezier(0.34, 1.2, 0.64, 1), filter 0.15s ease;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
             z-index: 10;
         }
 
         .bug:hover {
-            transform: scale(1.3);
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+            transform: scale(1.35) rotate(8deg);
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
         }
 
-        /* หนูตะเภา - ตัวใหญ่ วิ่งผ่าน */
+        /* Guinea Pig - Deluxe Edition */
         .guinea-pig {
             position: absolute;
-            font-size: 5rem;
+            font-size: 5.5rem;
             cursor: pointer;
-            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
             z-index: 15;
             transition: transform 0.1s ease;
-            animation: shakePig 0.3s ease-in-out infinite;
+            animation: guineaPigRun 0.4s ease-in-out infinite;
         }
 
         .guinea-pig:hover {
-            transform: scale(1.1);
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 25px rgba(255, 100, 100, 0.8));
         }
 
-        @keyframes shakePig {
+        @keyframes guineaPigRun {
 
             0%,
             100% {
-                transform: rotate(0deg);
+                transform: translateY(0px) rotate(0deg);
             }
 
             25% {
-                transform: rotate(5deg);
+                transform: translateY(-3px) rotate(3deg);
             }
 
             75% {
-                transform: rotate(-5deg);
+                transform: translateY(2px) rotate(-3deg);
             }
         }
 
+        /* Effects */
         .hit-effect {
             position: absolute;
             pointer-events: none;
-            animation: hitExplode 0.4s ease-out forwards;
+            animation: hitExplode 0.5s ease-out forwards;
         }
 
         @keyframes hitExplode {
@@ -278,7 +324,7 @@
             }
 
             100% {
-                transform: scale(4);
+                transform: scale(5);
                 opacity: 0;
             }
         }
@@ -287,43 +333,47 @@
             position: absolute;
             pointer-events: none;
             font-weight: 800;
-            font-size: 1.5rem;
-            animation: floatScore 1s ease-out forwards;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-size: 1.8rem;
+            animation: floatScore 1s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
             z-index: 20;
+            font-family: monospace;
         }
 
         @keyframes floatScore {
             0% {
-                transform: translateY(0) scale(0.5);
+                transform: translateY(0) scale(0.6);
                 opacity: 1;
             }
 
             100% {
-                transform: translateY(-80px) scale(1.2);
+                transform: translateY(-100px) scale(1.3);
                 opacity: 0;
             }
         }
 
         .shake-screen {
-            animation: screenShake 0.3s ease-in-out;
+            animation: screenShake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
         }
 
         @keyframes screenShake {
             0% {
-                transform: translate(1px, 1px);
+                transform: translate(0, 0);
             }
 
-            25% {
-                transform: translate(-1px, -2px);
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translate(-3px, -2px);
             }
 
-            50% {
-                transform: translate(-2px, 1px);
-            }
-
-            75% {
-                transform: translate(2px, -1px);
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translate(3px, 2px);
             }
 
             100% {
@@ -331,14 +381,15 @@
             }
         }
 
+        /* Popup */
         .popup-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(24px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -347,71 +398,77 @@
         }
 
         .popup-card {
-            max-width: 500px;
+            max-width: 520px;
             width: 90%;
             background: rgba(255, 255, 255, 0.98);
-            border-radius: 48px;
-            padding: 2rem;
+            border-radius: 56px;
+            padding: 2.2rem;
             text-align: center;
-            animation: slideUp 0.4s ease;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .end-leaderboard {
-            max-width: 700px;
+            max-width: 750px;
             width: 95%;
         }
 
         .leaderboard-preview {
-            max-height: 400px;
+            max-height: 420px;
             overflow-y: auto;
-            margin: 1rem 0;
-            border-radius: 24px;
+            margin: 1.2rem 0;
+            border-radius: 28px;
             background: #f8f9fa;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         .leaderboard-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
+            gap: 14px;
+            padding: 14px 20px;
             border-bottom: 1px solid #e9ecef;
             transition: all 0.3s ease;
         }
 
         .leaderboard-item:hover {
             background: linear-gradient(90deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            transform: translateX(5px);
         }
 
         .leaderboard-rank {
-            width: 40px;
+            width: 50px;
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
         .rank-1-text {
             color: #ffd700;
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
         }
 
         .rank-2-text {
             color: #c0c0c0;
+            text-shadow: 0 0 5px rgba(192, 192, 192, 0.5);
         }
 
         .rank-3-text {
             color: #cd7f32;
+            text-shadow: 0 0 5px rgba(205, 127, 50, 0.5);
         }
 
         .leaderboard-avatar {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
         .leaderboard-info {
@@ -420,8 +477,9 @@
         }
 
         .leaderboard-name {
-            font-weight: 600;
+            font-weight: 700;
             color: #1f2937;
+            font-size: 1rem;
         }
 
         .leaderboard-score {
@@ -430,26 +488,27 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
 
         .your-rank-badge {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .rank-change {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 20px;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 30px;
         }
 
         .rank-up {
@@ -479,7 +538,7 @@
 
         @keyframes slideUp {
             from {
-                transform: translateY(50px);
+                transform: translateY(60px);
                 opacity: 0;
             }
 
@@ -494,20 +553,22 @@
             color: white;
             border: none;
             border-radius: 60px;
-            padding: 14px 32px;
+            padding: 14px 36px;
             font-weight: 700;
             font-size: 1rem;
             transition: all 0.3s ease;
             margin: 8px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .btn-game:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(118, 75, 162, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(118, 75, 162, 0.5);
         }
 
         .btn-secondary-game {
             background: linear-gradient(135deg, #6c757d, #495057);
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
         }
 
         .rules-list {
@@ -518,17 +579,29 @@
         }
 
         .rules-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+            font-size: 1rem;
         }
 
         .bug-icon {
-            font-size: 1.5rem;
-            width: 40px;
+            font-size: 1.8rem;
+            width: 48px;
             display: inline-block;
+            text-align: center;
+        }
+
+        .danger-warning {
+            background: linear-gradient(135deg, #fee2e2, #ffdede);
+            border-left: 4px solid #dc2626;
+        }
+
+        .combo-warning {
+            background: linear-gradient(135deg, #fef3c7, #ffefb5);
+            border-left: 4px solid #f59e0b;
         }
 
         .leaderboard-preview::-webkit-scrollbar {
@@ -547,24 +620,24 @@
 
         @media (max-width: 768px) {
             .stat-card {
-                padding: 6px 12px;
-                gap: 6px;
+                padding: 6px 14px;
+                gap: 8px;
             }
 
             .stat-value {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
 
             .stat-icon {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
 
             .bug {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
 
             .guinea-pig {
-                font-size: 3.5rem;
+                font-size: 4rem;
             }
 
             .game-header {
@@ -573,6 +646,7 @@
 
             .hud {
                 margin: 0.5rem 1rem;
+                padding: 0.75rem 1rem;
             }
 
             .combo-container {
@@ -581,6 +655,15 @@
 
             .game-area {
                 margin: 0 1rem 1rem 1rem;
+            }
+
+            .popup-card {
+                padding: 1.5rem;
+            }
+
+            .btn-game {
+                padding: 10px 24px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -591,42 +674,48 @@
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
 
     <div class="game-wrapper">
         <!-- Rule Screen -->
         <div id="ruleScreen" class="popup-screen">
             <div class="popup-card">
-                <div style="font-size: 4rem;">🐛✨</div>
+                <div style="font-size: 4.5rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));">🐛✨</div>
                 <h2 class="mt-3"
-                    style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800;">
+                    style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800; font-size: 2rem;">
                     Catch Bugs!</h2>
-                <p class="text-muted">Challenge your reflexes</p>
+                <p class="text-muted" style="font-size: 0.9rem;">Challenge your reflexes & avoid the danger!</p>
 
                 <ul class="rules-list">
                     <li><span class="bug-icon">🐛</span> Normal Bug <span
-                            style="margin-left: auto; font-weight: 700; color: #10b981;">+1</span></li>
+                            style="margin-left: auto; font-weight: 800; color: #10b981; background: #d1fae5; padding: 4px 12px; border-radius: 30px;">+1</span>
+                    </li>
                     <li><span class="bug-icon">🐞</span> Ladybug <span
-                            style="margin-left: auto; font-weight: 700; color: #10b981;">+5</span></li>
+                            style="margin-left: auto; font-weight: 800; color: #10b981; background: #d1fae5; padding: 4px 12px; border-radius: 30px;">+5</span>
+                    </li>
                     <li><span class="bug-icon">🦋</span> Butterfly <span
-                            style="margin-left: auto; font-weight: 700; color: #f59e0b;">+10</span></li>
+                            style="margin-left: auto; font-weight: 800; color: #f59e0b; background: #fed7aa; padding: 4px 12px; border-radius: 30px;">+10</span>
+                    </li>
                     <li><span class="bug-icon">🕷️</span> Spider <span
-                            style="margin-left: auto; font-weight: 700; color: #ef4444;">-2</span></li>
-                    <li><span class="bug-icon">🐹</span> <strong style="color: #dc2626;">GUINEA PIG (DANGER!)</strong>
-                        <span style="margin-left: auto; font-weight: 700; color: #dc2626;">SCORE RESET → 0</span>
+                            style="margin-left: auto; font-weight: 800; color: #ef4444; background: #fee2e2; padding: 4px 12px; border-radius: 30px;">-2</span>
+                    </li>
+                    <li style="background: #fff0f0; border-radius: 20px; margin-top: 6px; padding: 10px 12px;"><span
+                            class="bug-icon">🐹💀</span> <strong style="color: #dc2626;">GUINEA PIG (DANGER!)</strong>
+                        <span
+                            style="margin-left: auto; font-weight: 800; color: #dc2626; background: #fecaca; padding: 4px 12px; border-radius: 30px;">SCORE
+                            → 0</span>
                     </li>
                 </ul>
 
-                <div class="mb-3"
-                    style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 12px; border-radius: 20px;">
-                    <span style="font-weight: 700;">🔥 Combo System:</span>
-                    <span style="font-size: 0.85rem;">Click fast to build combo! +1 per 3 combo</span>
+                <div class="combo-warning mb-3 p-3" style="border-radius: 24px;">
+                    <span style="font-weight: 800;">🔥 COMBO SYSTEM:</span>
+                    <span style="font-size: 0.85rem;">Click fast! Every 3 hits = +1 extra point</span>
                 </div>
 
-                <div class="mb-3"
-                    style="background: linear-gradient(135deg, #fee2e2, #fecaca); padding: 12px; border-radius: 20px;">
-                    <span style="font-weight: 700; color: #dc2626;">⚠️ WARNING:</span>
-                    <span style="font-size: 0.85rem;">Don't click the Guinea Pig! It will reset your score to
-                        ZERO!</span>
+                <div class="danger-warning mb-3 p-3" style="border-radius: 24px;">
+                    <span style="font-weight: 800; color: #dc2626;">⚠️ WARNING! ⚠️</span>
+                    <span style="font-size: 0.85rem; display: block;">Don't click the Guinea Pig! It will RESET your
+                        entire score to ZERO!</span>
                 </div>
 
                 <button class="btn-game" onclick="startGame()">
@@ -676,8 +765,9 @@
 
             <div class="combo-container">
                 <div class="combo-header">
-                    <span><i class="fas fa-fire"></i> COMBO x<span id="comboCount">0</span></span>
-                    <span id="comboBonus" style="color: #f093fb;">+0</span>
+                    <span><i class="fas fa-fire" style="color: #f97316;"></i> COMBO x<span
+                            id="comboCount">0</span></span>
+                    <span id="comboBonus" style="color: #f97316; font-weight: 800;">+0</span>
                 </div>
                 <div class="combo-bar">
                     <div class="combo-fill" id="comboFill"></div>
@@ -686,9 +776,9 @@
 
             <div id="gameArea" class="game-area">
                 <div
-                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(255,255,255,0.5); text-align: center; pointer-events: none;">
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(255,255,255,0.4); text-align: center; pointer-events: none; font-size: 1.2rem;">
                     <i class="fas fa-bug fa-3x"></i>
-                    <p style="margin-top: 10px;">Click Start to Play!</p>
+                    <p style="margin-top: 12px;">✨ Click Start to Begin! ✨</p>
                 </div>
             </div>
         </div>
@@ -696,13 +786,13 @@
         <!-- End Screen -->
         <div id="endScreen" class="popup-screen" style="display: none;">
             <div class="popup-card end-leaderboard">
-                <div style="font-size: 4rem;" id="endEmoji">🎉</div>
-                <h2 class="mt-2" id="finalScoreTitle">Game Over!</h2>
-                <div class="row mt-3">
+                <div style="font-size: 4.5rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));" id="endEmoji">🎉</div>
+                <h2 class="mt-2" id="finalScoreTitle" style="font-weight: 800;">Game Over!</h2>
+                <div class="row mt-3 g-2">
                     <div class="col-6">
                         <div class="p-3"
-                            style="background: linear-gradient(135deg, #667eea10, #764ba210); border-radius: 24px;">
-                            <div class="text-muted small">YOUR SCORE</div>
+                            style="background: linear-gradient(135deg, #667eea15, #764ba215); border-radius: 28px;">
+                            <div class="text-muted small text-uppercase tracking-wide">Your Score</div>
                             <div class="display-4 fw-bold"
                                 style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent;"
                                 id="finalScore">0</div>
@@ -710,16 +800,17 @@
                     </div>
                     <div class="col-6">
                         <div class="p-3"
-                            style="background: linear-gradient(135deg, #667eea10, #764ba210); border-radius: 24px;">
-                            <div class="text-muted small">BEST SCORE</div>
+                            style="background: linear-gradient(135deg, #f59e0b15, #d9770615); border-radius: 28px;">
+                            <div class="text-muted small text-uppercase tracking-wide">Best Score</div>
                             <div class="display-4 fw-bold" style="color: #f59e0b;" id="bestScoreDisplay">0</div>
                         </div>
                     </div>
                 </div>
-                <div class="mt-3 p-2" id="rankChangeDisplay"></div>
+                <div class="mt-2 p-2" id="rankChangeDisplay"></div>
                 <div class="leaderboard-preview" id="endLeaderboard">
-                    <div class="text-center p-3">
-                        <div class="spinner-border text-purple" role="status"></div>
+                    <div class="text-center p-4">
+                        <div class="spinner-border text-purple" role="status" style="color: #764ba2;"></div>
+                        <p class="mt-2 text-muted small">Loading rankings...</p>
                     </div>
                 </div>
                 <div class="mt-3">
@@ -769,7 +860,7 @@
         function shakeScreen() {
             const gameArea = document.getElementById("gameArea");
             gameArea.classList.add("shake-screen");
-            setTimeout(() => gameArea.classList.remove("shake-screen"), 300);
+            setTimeout(() => gameArea.classList.remove("shake-screen"), 350);
         }
 
         function resetScore() {
@@ -781,17 +872,17 @@
             shakeScreen();
             const gameArea = document.getElementById("gameArea");
             const rect = gameArea.getBoundingClientRect();
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 25; i++) {
                 const effect = document.createElement('div');
                 effect.className = 'hit-effect';
                 effect.style.left = Math.random() * rect.width + 'px';
                 effect.style.top = Math.random() * rect.height + 'px';
-                effect.style.width = '30px';
-                effect.style.height = '30px';
-                effect.style.background = 'radial-gradient(circle, #ef4444, #dc2626)';
+                effect.style.width = '25px';
+                effect.style.height = '25px';
+                effect.style.background = 'radial-gradient(circle, #ef4444, #dc2626, #991b1b)';
                 effect.style.position = 'absolute';
                 gameArea.appendChild(effect);
-                setTimeout(() => effect.remove(), 400);
+                setTimeout(() => effect.remove(), 500);
             }
         }
 
@@ -800,7 +891,7 @@
             document.getElementById("time").innerText = time;
             document.getElementById("comboCount").innerText = combo;
             const bonus = Math.floor(combo / 3);
-            document.getElementById("comboBonus").innerHTML = bonus > 0 ? `+${bonus}` : "";
+            document.getElementById("comboBonus").innerHTML = bonus > 0 ? `🔥 +${bonus}` : "";
             document.getElementById("comboFill").style.width = Math.min((combo / 20) * 100, 100) + "%";
         }
 
@@ -809,14 +900,14 @@
             effect.className = 'hit-effect';
             effect.style.left = x + 'px';
             effect.style.top = y + 'px';
-            effect.style.width = '20px';
-            effect.style.height = '20px';
+            effect.style.width = '22px';
+            effect.style.height = '22px';
             effect.style.borderRadius = '50%';
-            effect.style.background = 'radial-gradient(circle, #f093fb, #f5576c)';
+            effect.style.background = 'radial-gradient(circle, #f093fb, #f5576c, #c026d3)';
             effect.style.position = 'absolute';
             effect.style.pointerEvents = 'none';
             document.getElementById("gameArea").appendChild(effect);
-            setTimeout(() => effect.remove(), 400);
+            setTimeout(() => effect.remove(), 500);
         }
 
         function createScorePopup(x, y, points, isReset = false) {
@@ -825,8 +916,9 @@
             if (isReset) {
                 popup.innerText = '💀 SCORE RESET! 💀';
                 popup.style.color = '#dc2626';
-                popup.style.fontSize = '1.2rem';
+                popup.style.fontSize = '1.3rem';
                 popup.style.whiteSpace = 'nowrap';
+                popup.style.fontWeight = '900';
             } else {
                 popup.innerText = points > 0 ? `+${points}` : `${points}`;
                 popup.style.color = points > 0 ? '#10b981' : '#ef4444';
@@ -838,25 +930,23 @@
             setTimeout(() => popup.remove(), 1000);
         }
 
-        // ฟังก์ชันสร้างหนูตะเภาตัวใหญ่ วิ่งผ่านหน้าจอ
         function spawnGuineaPig() {
             if (!gameActive) return;
-
             const gameArea = document.getElementById("gameArea");
             const areaRect = gameArea.getBoundingClientRect();
             if (areaRect.width === 0 || areaRect.height === 0) return;
 
             const guineaPig = document.createElement("div");
             guineaPig.className = "guinea-pig";
-            guineaPig.innerText = "🐹";
+            guineaPig.innerText = "🐹💀";
 
             const startFromRight = Math.random() > 0.5;
-            let x = startFromRight ? areaRect.width - 80 : -80;
-            let y = Math.random() * (areaRect.height - 100);
+            let x = startFromRight ? areaRect.width - 100 : -100;
+            let y = Math.random() * (areaRect.height - 120);
             guineaPig.style.left = x + "px";
-            guineaPig.style.top = Math.max(0, Math.min(areaRect.height - 100, y)) + "px";
+            guineaPig.style.top = Math.max(10, Math.min(areaRect.height - 110, y)) + "px";
 
-            const direction = startFromRight ? -8 : 8;
+            const direction = startFromRight ? -9 : 9;
 
             const moveInterval = setInterval(() => {
                 if (!gameActive || !guineaPig.parentNode) {
@@ -864,7 +954,7 @@
                     return;
                 }
                 let newX = parseFloat(guineaPig.style.left) + direction;
-                if ((direction > 0 && newX > areaRect.width) || (direction < 0 && newX < -100)) {
+                if ((direction > 0 && newX > areaRect.width) || (direction < 0 && newX < -120)) {
                     clearInterval(moveInterval);
                     if (guineaPig.parentNode) guineaPig.remove();
                     const idx = activeGuineaPigs.indexOf(moveInterval);
@@ -872,7 +962,7 @@
                     return;
                 }
                 guineaPig.style.left = newX + "px";
-            }, 50);
+            }, 45);
 
             guineaPig.onclick = (e) => {
                 e.stopPropagation();
@@ -899,7 +989,7 @@
                     const idx = activeGuineaPigs.indexOf(moveInterval);
                     if (idx > -1) activeGuineaPigs.splice(idx, 1);
                 }
-            }, 6000);
+            }, 6500);
         }
 
         function spawnBug() {
@@ -914,20 +1004,20 @@
             bug.innerText = type.emoji;
             bug.dataset.points = type.point;
 
-            let x = Math.random() * (areaRect.width - 80);
-            let y = Math.random() * (areaRect.height - 80);
-            bug.style.left = Math.max(0, Math.min(areaRect.width - 80, x)) + "px";
-            bug.style.top = Math.max(0, Math.min(areaRect.height - 80, y)) + "px";
+            let x = Math.random() * (areaRect.width - 85);
+            let y = Math.random() * (areaRect.height - 85);
+            bug.style.left = Math.max(5, Math.min(areaRect.width - 85, x)) + "px";
+            bug.style.top = Math.max(5, Math.min(areaRect.height - 85, y)) + "px";
 
-            let dx = (Math.random() - 0.5) * 5;
-            let dy = (Math.random() - 0.5) * 5;
+            let dx = (Math.random() - 0.5) * 5.5;
+            let dy = (Math.random() - 0.5) * 5.5;
 
             const moveInterval = setInterval(() => {
                 if (!gameActive || !bug.parentNode) { clearInterval(moveInterval); return; }
                 let newX = parseFloat(bug.style.left) + dx;
                 let newY = parseFloat(bug.style.top) + dy;
-                if (newX <= 0 || newX >= areaRect.width - 80) { dx = -dx; newX = Math.max(0, Math.min(areaRect.width - 80, newX)); }
-                if (newY <= 0 || newY >= areaRect.height - 80) { dy = -dy; newY = Math.max(0, Math.min(areaRect.height - 80, newY)); }
+                if (newX <= 5 || newX >= areaRect.width - 85) { dx = -dx; newX = Math.max(5, Math.min(areaRect.width - 85, newX)); }
+                if (newY <= 5 || newY >= areaRect.height - 85) { dy = -dy; newY = Math.max(5, Math.min(areaRect.height - 85, newY)); }
                 bug.style.left = newX + "px";
                 bug.style.top = newY + "px";
             }, 50);
@@ -958,7 +1048,7 @@
             activeBugs.push(moveInterval);
             setTimeout(() => {
                 if (bug.parentNode) { clearInterval(moveInterval); bug.remove(); const idx = activeBugs.indexOf(moveInterval); if (idx > -1) activeBugs.splice(idx, 1); }
-            }, 3500);
+            }, 3800);
         }
 
         function startGame() {
@@ -1025,10 +1115,10 @@
                 let rankClass = rank === 1 ? 'rank-1-text' : rank === 2 ? 'rank-2-text' : rank === 3 ? 'rank-3-text' : '';
                 const isCurrentUser = u.ig === user.ig;
                 const userInitial = u.name ? u.name.charAt(0).toUpperCase() : (u.ig ? u.ig.charAt(0).toUpperCase() : '?');
-                leaderboardHtml += `<div class="leaderboard-item" style="${isCurrentUser ? 'background: linear-gradient(90deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15)); border-left: 3px solid #764ba2;' : ''}">
+                leaderboardHtml += `<div class="leaderboard-item" style="${isCurrentUser ? 'background: linear-gradient(90deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15)); border-left: 4px solid #764ba2;' : ''}">
                     <div class="leaderboard-rank ${rankClass}">#${rank}</div>
                     <div class="leaderboard-avatar">${userInitial}</div>
-                    <div class="leaderboard-info"><div class="leaderboard-name">${escapeHtml(u.name || u.ig)} ${isCurrentUser ? '<span class="your-rank-badge ms-2">You</span>' : ''}</div>
+                    <div class="leaderboard-info"><div class="leaderboard-name">${escapeHtml(u.name || u.ig)} ${isCurrentUser ? '<span class="your-rank-badge ms-2">YOU</span>' : ''}</div>
                     <div class="small text-muted">${escapeHtml(u.faculty || '-')}</div></div>
                     <div class="leaderboard-score">${u.bestScore || 0}</div>
                 </div>`;
@@ -1036,8 +1126,8 @@
             leaderboardHtml += '</div>';
             document.getElementById("endLeaderboard").innerHTML = leaderboardHtml;
             document.getElementById("finalScore").innerText = currentScore;
-            document.getElementById("endEmoji").innerHTML = isNewHighScore ? "🏆✨" : "🎮";
-            document.getElementById("finalScoreTitle").innerHTML = isNewHighScore ? "New High Score!" : "Game Over!";
+            document.getElementById("endEmoji").innerHTML = isNewHighScore ? "🏆✨🌟" : "🎮💜";
+            document.getElementById("finalScoreTitle").innerHTML = isNewHighScore ? "✨ NEW HIGH SCORE! ✨" : "Game Over!";
         }
 
         function escapeHtml(text) { if (!text) return '-'; const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
@@ -1061,7 +1151,7 @@
                 document.getElementById("gameScreen").style.display = "none";
                 document.getElementById("endScreen").style.display = "flex";
                 document.getElementById("finalScore").innerText = score;
-                document.getElementById("endLeaderboard").innerHTML = '<div class="text-center p-3 text-danger">Unable to load leaderboard</div>';
+                document.getElementById("endLeaderboard").innerHTML = '<div class="text-center p-3 text-danger">⚠️ Unable to load leaderboard</div>';
             }
         }
 
