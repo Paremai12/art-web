@@ -25,7 +25,6 @@
             position: relative;
         }
 
-        /* Animated background */
         .orb {
             position: absolute;
             border-radius: 50%;
@@ -85,7 +84,6 @@
             flex-direction: column;
         }
 
-        /* Header */
         .game-header {
             display: flex;
             justify-content: space-between;
@@ -140,7 +138,6 @@
             box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
         }
 
-        /* HUD */
         .hud {
             display: flex;
             justify-content: space-between;
@@ -179,7 +176,6 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Combo system */
         .combo-container {
             margin: 0 1.5rem 0.5rem 1.5rem;
         }
@@ -211,7 +207,6 @@
             box-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
         }
 
-        /* Game Area */
         .game-area {
             flex: 1;
             margin: 0 1.5rem 1.5rem 1.5rem;
@@ -225,7 +220,6 @@
             min-height: 300px;
         }
 
-        /* Bug styling */
         .bug {
             position: absolute;
             font-size: 3rem;
@@ -240,7 +234,7 @@
             filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
         }
 
-        /* Guinea Pig styling */
+        /* หนูตะเภา - ตัวใหญ่ วิ่งผ่าน */
         .guinea-pig {
             position: absolute;
             font-size: 5rem;
@@ -248,14 +242,14 @@
             filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
             z-index: 15;
             transition: transform 0.1s ease;
-            animation: shake 0.3s ease-in-out infinite;
+            animation: shakePig 0.3s ease-in-out infinite;
         }
 
         .guinea-pig:hover {
             transform: scale(1.1);
         }
 
-        @keyframes shake {
+        @keyframes shakePig {
 
             0%,
             100% {
@@ -311,7 +305,6 @@
             }
         }
 
-        /* Screen shake effect */
         .shake-screen {
             animation: screenShake 0.3s ease-in-out;
         }
@@ -338,7 +331,6 @@
             }
         }
 
-        /* Popup screens */
         .popup-screen {
             position: fixed;
             top: 0;
@@ -365,7 +357,6 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
         }
 
-        /* Leaderboard in end screen */
         .end-leaderboard {
             max-width: 700px;
             width: 95%;
@@ -476,17 +467,6 @@
             color: #d97706;
         }
 
-        /* Danger badge for guinea pig */
-        .danger-badge {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -551,7 +531,6 @@
             display: inline-block;
         }
 
-        /* Scrollbar */
         .leaderboard-preview::-webkit-scrollbar {
             width: 6px;
         }
@@ -566,7 +545,6 @@
             border-radius: 10px;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .stat-card {
                 padding: 6px 12px;
@@ -641,15 +619,14 @@
                 <div class="mb-3"
                     style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 12px; border-radius: 20px;">
                     <span style="font-weight: 700;">🔥 Combo System:</span>
-                    <span class="text-muted" style="font-size: 0.85rem;">Click fast to build combo! +1 per 3
-                        combo</span>
+                    <span style="font-size: 0.85rem;">Click fast to build combo! +1 per 3 combo</span>
                 </div>
 
                 <div class="mb-3"
                     style="background: linear-gradient(135deg, #fee2e2, #fecaca); padding: 12px; border-radius: 20px;">
                     <span style="font-weight: 700; color: #dc2626;">⚠️ WARNING:</span>
-                    <span class="text-muted" style="font-size: 0.85rem;">Don't click the Guinea Pig! It will reset your
-                        score to ZERO!</span>
+                    <span style="font-size: 0.85rem;">Don't click the Guinea Pig! It will reset your score to
+                        ZERO!</span>
                 </div>
 
                 <button class="btn-game" onclick="startGame()">
@@ -662,7 +639,7 @@
         </div>
 
         <!-- Game Screen -->
-        <div id="gameScreen" style="display: none; flex: 1; display: flex; flex-direction: column;">
+        <div id="gameScreen" style="display: none; flex-direction: column;">
             <div class="game-header">
                 <div class="user-info">
                     <div class="user-avatar" id="userAvatar">👤</div>
@@ -707,7 +684,6 @@
                 </div>
             </div>
 
-            <!-- GAME AREA -->
             <div id="gameArea" class="game-area">
                 <div
                     style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(255,255,255,0.5); text-align: center; pointer-events: none;">
@@ -722,7 +698,6 @@
             <div class="popup-card end-leaderboard">
                 <div style="font-size: 4rem;" id="endEmoji">🎉</div>
                 <h2 class="mt-2" id="finalScoreTitle">Game Over!</h2>
-
                 <div class="row mt-3">
                     <div class="col-6">
                         <div class="p-3"
@@ -741,24 +716,17 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="mt-3 p-2" id="rankChangeDisplay"></div>
-
                 <div class="leaderboard-preview" id="endLeaderboard">
                     <div class="text-center p-3">
-                        <div class="spinner-border text-purple" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
+                        <div class="spinner-border text-purple" role="status"></div>
                     </div>
                 </div>
-
                 <div class="mt-3">
-                    <button class="btn-game" onclick="location.reload()">
-                        <i class="fas fa-redo-alt me-2"></i>Play Again
-                    </button>
-                    <button class="btn-game btn-secondary-game" onclick="logout()">
-                        <i class="fas fa-home me-2"></i>Main Menu
-                    </button>
+                    <button class="btn-game" onclick="location.reload()"><i class="fas fa-redo-alt me-2"></i>Play
+                        Again</button>
+                    <button class="btn-game btn-secondary-game" onclick="logout()"><i class="fas fa-home me-2"></i>Main
+                        Menu</button>
                 </div>
             </div>
         </div>
@@ -767,13 +735,11 @@
     <audio id="clickSound" preload="auto">
         <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
     </audio>
-
     <audio id="resetSound" preload="auto">
         <source src="https://www.soundjay.com/misc/sounds/cartoon-boo-01.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // Game variables
         let score = 0, time = 120, combo = 0, lastClickTime = 0;
         let gameActive = false;
         let gameTimer = null;
@@ -786,7 +752,6 @@
         const user = JSON.parse(localStorage.getItem("currentUser"));
         if (!user) location.href = "login.html";
 
-        // Set user info
         document.getElementById("userName").innerText = user.name || user.ig;
         document.getElementById("userAvatar").innerHTML = user.name ? user.name.charAt(0).toUpperCase() : "👤";
         document.getElementById("best").innerText = user.bestScore || 0;
@@ -798,24 +763,13 @@
             { emoji: "🕷️", point: -2, color: "#6b7280" }
         ];
 
-        function playSound() {
-            const audio = document.getElementById("clickSound");
-            audio.currentTime = 0;
-            audio.play().catch(e => console.log("Audio play failed:", e));
-        }
-
-        function playResetSound() {
-            const audio = document.getElementById("resetSound");
-            audio.currentTime = 0;
-            audio.play().catch(e => console.log("Audio play failed:", e));
-        }
+        function playSound() { const audio = document.getElementById("clickSound"); audio.currentTime = 0; audio.play().catch(e => console.log(e)); }
+        function playResetSound() { const audio = document.getElementById("resetSound"); audio.currentTime = 0; audio.play().catch(e => console.log(e)); }
 
         function shakeScreen() {
             const gameArea = document.getElementById("gameArea");
             gameArea.classList.add("shake-screen");
-            setTimeout(() => {
-                gameArea.classList.remove("shake-screen");
-            }, 300);
+            setTimeout(() => gameArea.classList.remove("shake-screen"), 300);
         }
 
         function resetScore() {
@@ -825,8 +779,6 @@
             updateUI();
             playResetSound();
             shakeScreen();
-
-            // Create explosion effect
             const gameArea = document.getElementById("gameArea");
             const rect = gameArea.getBoundingClientRect();
             for (let i = 0; i < 20; i++) {
@@ -886,19 +838,18 @@
             setTimeout(() => popup.remove(), 1000);
         }
 
+        // ฟังก์ชันสร้างหนูตะเภาตัวใหญ่ วิ่งผ่านหน้าจอ
         function spawnGuineaPig() {
             if (!gameActive) return;
 
             const gameArea = document.getElementById("gameArea");
             const areaRect = gameArea.getBoundingClientRect();
-
             if (areaRect.width === 0 || areaRect.height === 0) return;
 
             const guineaPig = document.createElement("div");
             guineaPig.className = "guinea-pig";
             guineaPig.innerText = "🐹💀";
 
-            // Start from left or right
             const startFromRight = Math.random() > 0.5;
             let x = startFromRight ? areaRect.width - 80 : -80;
             let y = Math.random() * (areaRect.height - 100);
@@ -906,51 +857,41 @@
             guineaPig.style.top = Math.max(0, Math.min(areaRect.height - 100, y)) + "px";
 
             const direction = startFromRight ? -8 : 8;
-            const speed = 8;
 
             const moveInterval = setInterval(() => {
                 if (!gameActive || !guineaPig.parentNode) {
                     clearInterval(moveInterval);
                     return;
                 }
-
                 let newX = parseFloat(guineaPig.style.left) + direction;
-
-                // Remove when off screen
                 if ((direction > 0 && newX > areaRect.width) || (direction < 0 && newX < -100)) {
                     clearInterval(moveInterval);
                     if (guineaPig.parentNode) guineaPig.remove();
-                    const index = activeGuineaPigs.indexOf(moveInterval);
-                    if (index > -1) activeGuineaPigs.splice(index, 1);
+                    const idx = activeGuineaPigs.indexOf(moveInterval);
+                    if (idx > -1) activeGuineaPigs.splice(idx, 1);
                     return;
                 }
-
                 guineaPig.style.left = newX + "px";
             }, 50);
 
             guineaPig.onclick = (e) => {
                 e.stopPropagation();
                 if (!gameActive) return;
-
                 const rect = guineaPig.getBoundingClientRect();
                 const areaRectBounds = gameArea.getBoundingClientRect();
                 const hitX = rect.left - areaRectBounds.left + rect.width / 2;
                 const hitY = rect.top - areaRectBounds.top + rect.height / 2;
-
                 createHitEffect(hitX, hitY);
                 createScorePopup(hitX, hitY, 0, true);
                 resetScore();
-
                 clearInterval(moveInterval);
                 guineaPig.remove();
-                const index = activeGuineaPigs.indexOf(moveInterval);
-                if (index > -1) activeGuineaPigs.splice(index, 1);
+                const idx = activeGuineaPigs.indexOf(moveInterval);
+                if (idx > -1) activeGuineaPigs.splice(idx, 1);
             };
 
             gameArea.appendChild(guineaPig);
             activeGuineaPigs.push(moveInterval);
-
-            // Auto-remove after 6 seconds
             setTimeout(() => {
                 if (guineaPig.parentNode) {
                     clearInterval(moveInterval);
@@ -963,15 +904,12 @@
 
         function spawnBug() {
             if (!gameActive) return;
-
             const gameArea = document.getElementById("gameArea");
             const areaRect = gameArea.getBoundingClientRect();
-
             if (areaRect.width === 0 || areaRect.height === 0) return;
 
             const bug = document.createElement("div");
             bug.className = "bug";
-
             const type = bugTypes[Math.floor(Math.random() * bugTypes.length)];
             bug.innerText = type.emoji;
             bug.dataset.points = type.point;
@@ -985,23 +923,11 @@
             let dy = (Math.random() - 0.5) * 5;
 
             const moveInterval = setInterval(() => {
-                if (!gameActive || !bug.parentNode) {
-                    clearInterval(moveInterval);
-                    return;
-                }
-
+                if (!gameActive || !bug.parentNode) { clearInterval(moveInterval); return; }
                 let newX = parseFloat(bug.style.left) + dx;
                 let newY = parseFloat(bug.style.top) + dy;
-
-                if (newX <= 0 || newX >= areaRect.width - 80) {
-                    dx = -dx;
-                    newX = Math.max(0, Math.min(areaRect.width - 80, newX));
-                }
-                if (newY <= 0 || newY >= areaRect.height - 80) {
-                    dy = -dy;
-                    newY = Math.max(0, Math.min(areaRect.height - 80, newY));
-                }
-
+                if (newX <= 0 || newX >= areaRect.width - 80) { dx = -dx; newX = Math.max(0, Math.min(areaRect.width - 80, newX)); }
+                if (newY <= 0 || newY >= areaRect.height - 80) { dy = -dy; newY = Math.max(0, Math.min(areaRect.height - 80, newY)); }
                 bug.style.left = newX + "px";
                 bug.style.top = newY + "px";
             }, 50);
@@ -1009,94 +935,56 @@
             bug.onclick = (e) => {
                 e.stopPropagation();
                 if (!gameActive) return;
-
                 playSound();
-
                 const now = Date.now();
-                if (now - lastClickTime < 700) {
-                    combo++;
-                } else {
-                    combo = 0;
-                }
+                if (now - lastClickTime < 700) combo++;
+                else combo = 0;
                 lastClickTime = now;
-
                 let gained = type.point + Math.floor(combo / 3);
                 score += gained;
-
                 const rect = bug.getBoundingClientRect();
                 const areaRectBounds = gameArea.getBoundingClientRect();
                 const hitX = rect.left - areaRectBounds.left + rect.width / 2;
                 const hitY = rect.top - areaRectBounds.top + rect.height / 2;
-
                 createHitEffect(hitX, hitY);
                 createScorePopup(hitX, hitY, gained);
-
                 updateUI();
-
                 clearInterval(moveInterval);
                 bug.remove();
-
-                const index = activeBugs.indexOf(moveInterval);
-                if (index > -1) activeBugs.splice(index, 1);
+                const idx = activeBugs.indexOf(moveInterval);
+                if (idx > -1) activeBugs.splice(idx, 1);
             };
-
             gameArea.appendChild(bug);
             activeBugs.push(moveInterval);
-
             setTimeout(() => {
-                if (bug.parentNode) {
-                    clearInterval(moveInterval);
-                    bug.remove();
-                    const idx = activeBugs.indexOf(moveInterval);
-                    if (idx > -1) activeBugs.splice(idx, 1);
-                }
+                if (bug.parentNode) { clearInterval(moveInterval); bug.remove(); const idx = activeBugs.indexOf(moveInterval); if (idx > -1) activeBugs.splice(idx, 1); }
             }, 3500);
         }
 
         function startGame() {
-            // Clear game area first
             const gameArea = document.getElementById("gameArea");
             gameArea.innerHTML = "";
-
             document.getElementById("ruleScreen").style.display = "none";
             document.getElementById("gameScreen").style.display = "flex";
             gameActive = true;
-
-            // Reset game variables
-            score = 0;
-            time = 120;
-            combo = 0;
-            currentSpeed = 600;
-            lastClickTime = 0;
-            activeBugs = [];
-            activeGuineaPigs = [];
+            score = 0; time = 120; combo = 0; currentSpeed = 600; lastClickTime = 0;
+            activeBugs = []; activeGuineaPigs = [];
             updateUI();
 
             gameTimer = setInterval(() => {
                 if (!gameActive) return;
-
                 time--;
                 document.getElementById("time").innerText = time;
-
                 if (time % 20 === 0 && currentSpeed > 250) {
                     currentSpeed -= 50;
                     clearInterval(spawnInterval);
                     spawnInterval = setInterval(() => spawnBug(), currentSpeed);
                 }
-
-                if (time <= 0) {
-                    endGame();
-                }
+                if (time <= 0) endGame();
             }, 1000);
 
             spawnInterval = setInterval(() => spawnBug(), currentSpeed);
-
-            // Spawn Guinea Pig every 8-12 seconds
-            guineaPigInterval = setInterval(() => {
-                if (gameActive) {
-                    spawnGuineaPig();
-                }
-            }, 10000);
+            guineaPigInterval = setInterval(() => { if (gameActive) spawnGuineaPig(); }, 8000);
         }
 
         async function getLeaderboard() {
@@ -1104,30 +992,19 @@
                 const res = await fetch("/users");
                 const data = await res.json();
                 return data.sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
-            } catch (error) {
-                console.error("Error fetching leaderboard:", error);
-                return [];
-            }
+            } catch (error) { return []; }
         }
 
         function calculateRankChange(leaderboard, currentUser, currentScore) {
-            const previousLeaderboard = [...leaderboard];
-            const userIndex = previousLeaderboard.findIndex(u => u.ig === currentUser.ig);
-
-            const sortedPrev = [...previousLeaderboard].sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
+            const sortedPrev = [...leaderboard].sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
             const prevRank = sortedPrev.findIndex(u => u.ig === currentUser.ig) + 1;
-
-            const newLeaderboard = [...previousLeaderboard];
-            if (userIndex !== -1) {
-                newLeaderboard[userIndex].bestScore = currentScore;
-            } else {
-                newLeaderboard.push({ ...currentUser, bestScore: currentScore });
-            }
+            const newLeaderboard = [...leaderboard];
+            const userIndex = newLeaderboard.findIndex(u => u.ig === currentUser.ig);
+            if (userIndex !== -1) newLeaderboard[userIndex].bestScore = currentScore;
+            else newLeaderboard.push({ ...currentUser, bestScore: currentScore });
             const sortedNew = newLeaderboard.sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
             const newRank = sortedNew.findIndex(u => u.ig === currentUser.ig) + 1;
-
-            const change = prevRank - newRank;
-            return { change, prevRank, newRank };
+            return { change: prevRank - newRank, prevRank, newRank };
         }
 
         async function showEndScreenWithLeaderboard() {
@@ -1135,89 +1012,52 @@
             const currentScore = score;
             const oldBestScore = user.bestScore || 0;
             const isNewHighScore = currentScore > oldBestScore;
-
             document.getElementById("bestScoreDisplay").innerText = Math.max(oldBestScore, currentScore);
-
             const { change, prevRank, newRank } = calculateRankChange(leaderboard, user, currentScore);
-
             let rankChangeHtml = '';
-            if (change > 0) {
-                rankChangeHtml = `<div class="rank-change rank-up"><i class="fas fa-arrow-up"></i> Rank +${change} (${prevRank} → ${newRank})</div>`;
-            } else if (change < 0) {
-                rankChangeHtml = `<div class="rank-change rank-down"><i class="fas fa-arrow-down"></i> Rank ${change} (${prevRank} → ${newRank})</div>`;
-            } else {
-                rankChangeHtml = `<div class="rank-change rank-steady"><i class="fas fa-minus"></i> Rank unchanged (${newRank})</div>`;
-            }
+            if (change > 0) rankChangeHtml = `<div class="rank-change rank-up"><i class="fas fa-arrow-up"></i> Rank +${change} (${prevRank} → ${newRank})</div>`;
+            else if (change < 0) rankChangeHtml = `<div class="rank-change rank-down"><i class="fas fa-arrow-down"></i> Rank ${change} (${prevRank} → ${newRank})</div>`;
+            else rankChangeHtml = `<div class="rank-change rank-steady"><i class="fas fa-minus"></i> Rank unchanged (${newRank})</div>`;
             document.getElementById("rankChangeDisplay").innerHTML = rankChangeHtml;
-
             let leaderboardHtml = '<div class="p-2">';
             leaderboard.forEach((u, idx) => {
                 const rank = idx + 1;
-                let rankClass = '';
-                if (rank === 1) rankClass = 'rank-1-text';
-                else if (rank === 2) rankClass = 'rank-2-text';
-                else if (rank === 3) rankClass = 'rank-3-text';
-
+                let rankClass = rank === 1 ? 'rank-1-text' : rank === 2 ? 'rank-2-text' : rank === 3 ? 'rank-3-text' : '';
                 const isCurrentUser = u.ig === user.ig;
                 const userInitial = u.name ? u.name.charAt(0).toUpperCase() : (u.ig ? u.ig.charAt(0).toUpperCase() : '?');
-
-                leaderboardHtml += `
-            <div class="leaderboard-item" style="${isCurrentUser ? 'background: linear-gradient(90deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); border-left: 3px solid #764ba2;' : ''}">
-                <div class="leaderboard-rank ${rankClass}">#${rank}</div>
-                <div class="leaderboard-avatar">${userInitial}</div>
-                <div class="leaderboard-info">
-                    <div class="leaderboard-name">${escapeHtml(u.name || u.ig)} ${isCurrentUser ? '<span class="your-rank-badge ms-2">You</span>' : ''}</div>
-                    <div class="small text-muted">${escapeHtml(u.faculty || '-')}</div>
-                </div>
-                <div class="leaderboard-score">${u.bestScore || 0}</div>
-            </div>
-        `;
+                leaderboardHtml += `<div class="leaderboard-item" style="${isCurrentUser ? 'background: linear-gradient(90deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15)); border-left: 3px solid #764ba2;' : ''}">
+                    <div class="leaderboard-rank ${rankClass}">#${rank}</div>
+                    <div class="leaderboard-avatar">${userInitial}</div>
+                    <div class="leaderboard-info"><div class="leaderboard-name">${escapeHtml(u.name || u.ig)} ${isCurrentUser ? '<span class="your-rank-badge ms-2">You</span>' : ''}</div>
+                    <div class="small text-muted">${escapeHtml(u.faculty || '-')}</div></div>
+                    <div class="leaderboard-score">${u.bestScore || 0}</div>
+                </div>`;
             });
             leaderboardHtml += '</div>';
-
             document.getElementById("endLeaderboard").innerHTML = leaderboardHtml;
             document.getElementById("finalScore").innerText = currentScore;
             document.getElementById("endEmoji").innerHTML = isNewHighScore ? "🏆✨" : "🎮";
             document.getElementById("finalScoreTitle").innerHTML = isNewHighScore ? "New High Score!" : "Game Over!";
         }
 
-        function escapeHtml(text) {
-            if (!text) return '-';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+        function escapeHtml(text) { if (!text) return '-'; const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
 
         async function endGame() {
             gameActive = false;
             clearInterval(gameTimer);
             clearInterval(spawnInterval);
             clearInterval(guineaPigInterval);
-
-            activeBugs.forEach(interval => clearInterval(interval));
-            activeGuineaPigs.forEach(interval => clearInterval(interval));
-            activeBugs = [];
-            activeGuineaPigs = [];
-
+            activeBugs.forEach(i => clearInterval(i));
+            activeGuineaPigs.forEach(i => clearInterval(i));
             try {
-                const res = await fetch("/updateScore", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ ig: user.ig, score: score })
-                });
-
+                const res = await fetch("/updateScore", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ig: user.ig, score: score }) });
                 const data = await res.json();
-
                 user.bestScore = data.bestScore;
                 localStorage.setItem("currentUser", JSON.stringify(user));
-
                 document.getElementById("gameScreen").style.display = "none";
                 document.getElementById("endScreen").style.display = "flex";
-
                 await showEndScreenWithLeaderboard();
-
             } catch (error) {
-                console.error("Error saving score:", error);
                 document.getElementById("gameScreen").style.display = "none";
                 document.getElementById("endScreen").style.display = "flex";
                 document.getElementById("finalScore").innerText = score;
@@ -1225,10 +1065,7 @@
             }
         }
 
-        function logout() {
-            localStorage.removeItem("currentUser");
-            location.href = "login.html";
-        }
+        function logout() { localStorage.removeItem("currentUser"); location.href = "login.html"; }
     </script>
 </body>
 
