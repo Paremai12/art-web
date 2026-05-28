@@ -2,297 +2,656 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>Catch Bugs ✨</title>
-
+<title>Catch Bugs ✨ Ultimate Challenge</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
 body {
-    margin:0;
-    overflow:hidden;
-    font-family:'Poppins',sans-serif;
-    background: linear-gradient(135deg,#fdf4ff,#f5e9ff,#ede9fe);
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
 }
 
-/* 🌈 animated background */
-.bg {
-    position:absolute;
-    width:200%;
-    height:200%;
-    background: radial-gradient(circle,#c084fc33,transparent 60%);
-    animation: moveBg 20s linear infinite;
-}
-@keyframes moveBg {
-    from {transform:translate(-10%,-10%);}
-    to {transform:translate(10%,10%);}
+/* Animated gradient orbs */
+.orb-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
 }
 
-/* 💎 HUD */
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.4;
+    animation: floatOrb 25s ease-in-out infinite;
+}
+
+.orb-1 {
+    top: -20%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #f093fb, #f5576c);
+}
+
+.orb-2 {
+    bottom: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #4facfe, #00f2fe);
+    animation-delay: -8s;
+}
+
+.orb-3 {
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #43e97b, #38f9d7);
+    animation-delay: -15s;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes floatOrb {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(50px, -50px) scale(1.2); }
+    66% { transform: translate(-30px, 30px) scale(0.8); }
+}
+
+/* Main game container */
+.game-wrapper {
+    position: relative;
+    z-index: 1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HUD */
 .hud {
-    display:flex;
-    justify-content:space-around;
-    padding:14px;
-    margin:15px;
-    border-radius:20px;
-    background: rgba(255,255,255,0.7);
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    margin: 1rem 1.5rem;
+    border-radius: 80px;
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(20px);
-    box-shadow: 0 10px 30px rgba(168,85,247,0.25);
-    font-weight:600;
-    color:#6b21a8;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-/* 🔥 combo bar */
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 24px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 40px;
+    backdrop-filter: blur(10px);
+}
+
+.stat-icon {
+    font-size: 1.8rem;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Combo system */
+.combo-container {
+    margin: 0 1.5rem 1rem 1.5rem;
+}
+
+.combo-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 .combo-bar {
-    height:8px;
-    width:90%;
-    margin:auto;
-    background:#ede9fe;
-    border-radius:20px;
-    overflow:hidden;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
 }
+
 .combo-fill {
-    height:100%;
-    width:0%;
-    background: linear-gradient(90deg,#a855f7,#7c3aed);
-    transition:0.2s;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #f093fb, #f5576c);
+    border-radius: 20px;
+    transition: width 0.15s ease;
+    box-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
 }
 
-/* 🎮 game area */
-#gameArea {
-    width:92%;
-    height:65vh;
-    margin:auto;
-    border-radius:30px;
-    position:relative;
-    overflow:hidden;
-    background: rgba(255,255,255,0.5);
-    backdrop-filter: blur(20px);
-    box-shadow: inset 0 0 30px rgba(168,85,247,0.15);
+/* Game Area */
+.game-area {
+    flex: 1;
+    margin: 0 1.5rem 1.5rem 1.5rem;
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    cursor: crosshair;
 }
 
-/* 🐛 bug */
+/* Bug styling */
 .bug {
-    position:absolute;
-    font-size:36px;
-    cursor:pointer;
-    transition:0.2s;
+    position: absolute;
+    font-size: 3rem;
+    cursor: pointer;
+    transition: transform 0.1s ease, filter 0.1s ease;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    z-index: 10;
 }
 
 .bug:hover {
-    transform:scale(1.5) rotate(8deg);
-    filter: drop-shadow(0 0 12px #c084fc);
+    transform: scale(1.3);
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
 }
 
-/* 💥 hit effect */
-.hit {
-    position:absolute;
-    width:12px;
-    height:12px;
-    background:#c084fc;
-    border-radius:50%;
-    animation:explode 0.6s forwards;
-}
-@keyframes explode {
-    to {transform:scale(6); opacity:0;}
+/* Hit effect */
+.hit-effect {
+    position: absolute;
+    pointer-events: none;
+    animation: hitExplode 0.4s ease-out forwards;
 }
 
-/* ✨ score popup */
+@keyframes hitExplode {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Score popup */
 .score-pop {
-    position:absolute;
-    color:#7c3aed;
-    font-weight:bold;
-    animation:floatUp 1s forwards;
-}
-@keyframes floatUp {
-    to {transform:translateY(-60px); opacity:0;}
-}
-
-/* 💖 popup */
-.popup {
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    background: rgba(255,255,255,0.9);
-    padding:30px;
-    border-radius:25px;
-    box-shadow:0 20px 60px rgba(168,85,247,0.25);
-    max-width:420px;
-    text-align:center;
-    color:#6b21a8;
+    position: absolute;
+    pointer-events: none;
+    font-weight: 800;
+    font-size: 1.5rem;
+    animation: floatScore 1s ease-out forwards;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 20;
 }
 
-/* 💜 button */
-.btn-purple {
-    background: linear-gradient(135deg,#a855f7,#7c3aed);
-    color:white;
-    border:none;
-    border-radius:14px;
-    padding:10px 20px;
+@keyframes floatScore {
+    0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-80px) scale(1.2);
+        opacity: 0;
+    }
 }
-.btn-purple:hover {
-    transform:translateY(-2px);
-    box-shadow:0 10px 20px rgba(168,85,247,0.3);
+
+/* Popup screens */
+.popup-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    animation: fadeIn 0.3s ease;
+}
+
+.popup-card {
+    max-width: 450px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 48px;
+    padding: 2rem;
+    text-align: center;
+    animation: slideUp 0.4s ease;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.btn-game {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 60px;
+    padding: 14px 32px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin: 8px;
+}
+
+.btn-game:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(118, 75, 162, 0.4);
+}
+
+.rules-list {
+    text-align: left;
+    margin: 1.5rem 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rules-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.bug-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    display: inline-block;
+}
+
+.particle {
+    position: absolute;
+    pointer-events: none;
+    animation: particleFloat 1s ease-out forwards;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) scale(0);
+        opacity: 0;
+    }
 }
 </style>
 </head>
-
 <body>
 
-<div class="bg"></div>
-
-<!-- RULE -->
-<div id="ruleScreen" class="popup">
-<h4>✨ Catch Bugs ✨</h4>
-<p style="font-size:14px;">
-จับแมลงให้ได้มากที่สุดใน 2 นาที!<br><br>
-🐛 +1 | 🐞 +5 | 🕷 -2 | 🦋 +10<br><br>
-🔥 Combo ได้โบนัสเพิ่ม<br>
-⚡ ยิ่งนาน แมลงยิ่งเร็วขึ้น<br><br>
-🎯 ทำคะแนนให้สูงที่สุดเพื่อชัยชนะ
-</p>
-<button class="btn btn-purple" onclick="startGame()">เริ่มเกม</button>
+<div class="orb-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 </div>
 
-<!-- GAME -->
-<div id="gameScreen" style="display:none;">
-<div class="hud">
-    ⏱ <span id="time">120</span>
-    ⭐ <span id="score">0</span>
-    🏆 <span id="best">0</span>
+<div class="game-wrapper" id="gameWrapper">
+    <!-- Rule Screen -->
+    <div id="ruleScreen" class="popup-screen">
+        <div class="popup-card">
+            <div style="font-size: 4rem;">🐛✨</div>
+            <h2 class="mt-3" style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800;">Catch Bugs!</h2>
+            <p class="text-muted">Challenge your reflexes</p>
+            
+            <ul class="rules-list">
+                <li><span class="bug-icon">🐛</span> Normal Bug <span style="margin-left: auto; font-weight: 700; color: #10b981;">+1</span></li>
+                <li><span class="bug-icon">🐞</span> Ladybug <span style="margin-left: auto; font-weight: 700; color: #10b981;">+5</span></li>
+                <li><span class="bug-icon">🦋</span> Butterfly <span style="margin-left: auto; font-weight: 700; color: #f59e0b;">+10</span></li>
+                <li><span class="bug-icon">🕷️</span> Spider <span style="margin-left: auto; font-weight: 700; color: #ef4444;">-2</span></li>
+            </ul>
+            
+            <div class="mb-3" style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 12px; border-radius: 20px;">
+                <span style="font-weight: 700;">🔥 Combo System:</span>
+                <span class="text-muted" style="font-size: 0.85rem;">Click fast to build combo! +1 per 3 combo</span>
+            </div>
+            
+            <button class="btn-game" onclick="startGame()">
+                <i class="fas fa-play me-2"></i>Start Game
+            </button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" style="display: none; flex: 1; display: flex; flex-direction: column;">
+        <div class="hud">
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div>
+                    <div class="stat-value" id="time">120</div>
+                    <div class="stat-label">Seconds</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div>
+                    <div class="stat-value" id="score">0</div>
+                    <div class="stat-label">Score</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div>
+                    <div class="stat-value" id="best">0</div>
+                    <div class="stat-label">Best</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="combo-container">
+            <div class="combo-header">
+                <span><i class="fas fa-fire"></i> COMBO x<span id="comboCount">0</span></span>
+                <span id="comboBonus" style="color: #f093fb;">+0</span>
+            </div>
+            <div class="combo-bar">
+                <div class="combo-fill" id="comboFill"></div>
+            </div>
+        </div>
+
+        <div class="game-area" id="gameArea"></div>
+    </div>
+
+    <!-- End Screen -->
+    <div id="endScreen" class="popup-screen" style="display: none;">
+        <div class="popup-card">
+            <div style="font-size: 5rem;" id="endEmoji">🎉</div>
+            <h2 class="mt-2" id="finalScoreTitle">Game Over!</h2>
+            <p class="display-4 fw-bold" style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent;" id="finalScore">0</p>
+            <p class="text-muted" id="bestMessage"></p>
+            <button class="btn-game" onclick="location.reload()">
+                <i class="fas fa-redo-alt me-2"></i>Play Again
+            </button>
+        </div>
+    </div>
 </div>
 
-<div class="combo-bar">
-    <div id="comboFill" class="combo-fill"></div>
-</div>
-
-<div id="gameArea"></div>
-</div>
-
-<!-- END -->
-<div id="endScreen" class="popup" style="display:none;">
-<h3 id="finalScore"></h3>
-<button class="btn btn-success" onclick="location.reload()">เล่นอีกครั้ง</button>
-</div>
-
-<audio id="clickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9bde1c.mp3"></audio>
+<audio id="clickSound" preload="auto">
+    <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-let score=0,time=120,combo=0,lastClick=0,gameActive=false,timer,speed=600;
+// Game variables
+let score = 0, time = 120, combo = 0, lastClickTime = 0;
+let gameActive = false;
+let gameTimer = null;
+let currentSpeed = 600;
+let spawnInterval = null;
+let activeBugs = [];
 
-const user=JSON.parse(localStorage.getItem("currentUser"));
-if(!user) location.href="login.html";
+const user = JSON.parse(localStorage.getItem("currentUser"));
+if (!user) location.href = "login.html";
 
-document.getElementById("best").innerText=user.bestScore||0;
+document.getElementById("best").innerText = user.bestScore || 0;
 
-function startGame(){
-    ruleScreen.style.display="none";
-    gameScreen.style.display="block";
-    gameActive=true;
-    timer=setInterval(updateTime,1000);
-    spawnLoop();
+const bugTypes = [
+    { emoji: "🐛", point: 1, color: "#10b981" },
+    { emoji: "🐞", point: 5, color: "#ef4444" },
+    { emoji: "🦋", point: 10, color: "#f59e0b" },
+    { emoji: "🕷️", point: -2, color: "#6b7280" }
+];
+
+function playSound() {
+    const audio = document.getElementById("clickSound");
+    audio.currentTime = 0;
+    audio.play().catch(e => console.log("Audio play failed:", e));
 }
 
-function updateTime(){
-    time--;
-    document.getElementById("time").innerText=time;
-
-    if(time%20===0 && speed>250) speed-=50;
-
-    if(time<=0) endGame();
+function updateUI() {
+    document.getElementById("score").innerText = score;
+    document.getElementById("time").innerText = time;
+    document.getElementById("comboCount").innerText = combo;
+    const bonus = Math.floor(combo / 3);
+    document.getElementById("comboBonus").innerHTML = bonus > 0 ? `+${bonus}` : "";
+    document.getElementById("comboFill").style.width = Math.min((combo / 20) * 100, 100) + "%";
 }
 
-function spawnLoop(){
-    if(!gameActive) return;
-    spawnBug();
-    setTimeout(spawnLoop,speed);
+function createParticle(x, y, color) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.innerHTML = '⚡';
+    particle.style.position = 'absolute';
+    particle.style.left = x + 'px';
+    particle.style.top = y + 'px';
+    particle.style.fontSize = '20px';
+    particle.style.color = color;
+    document.getElementById("gameArea").appendChild(particle);
+    setTimeout(() => particle.remove(), 1000);
 }
 
-function spawnBug(){
-    const gameArea=document.getElementById("gameArea");
+function createHitEffect(x, y) {
+    const effect = document.createElement('div');
+    effect.className = 'hit-effect';
+    effect.style.position = 'absolute';
+    effect.style.left = x + 'px';
+    effect.style.top = y + 'px';
+    effect.style.width = '20px';
+    effect.style.height = '20px';
+    effect.style.borderRadius = '50%';
+    effect.style.background = 'radial-gradient(circle, #f093fb, #f5576c)';
+    effect.style.pointerEvents = 'none';
+    document.getElementById("gameArea").appendChild(effect);
+    setTimeout(() => effect.remove(), 400);
+}
 
-    const bug=document.createElement("div");
-    bug.className="bug";
+function createScorePopup(x, y, points) {
+    const popup = document.createElement('div');
+    popup.className = 'score-pop';
+    popup.innerText = points > 0 ? `+${points}` : `${points}`;
+    popup.style.color = points > 0 ? '#10b981' : '#ef4444';
+    popup.style.left = x + 'px';
+    popup.style.top = y + 'px';
+    document.getElementById("gameArea").appendChild(popup);
+    setTimeout(() => popup.remove(), 1000);
+}
 
-    const types=[
-        {emoji:"🐛",point:1},
-        {emoji:"🐞",point:5},
-        {emoji:"🕷",point:-2},
-        {emoji:"🦋",point:10}
-    ];
-
-    const type=types[Math.floor(Math.random()*types.length)];
-    bug.innerText=type.emoji;
-
-    let x=Math.random()*80,y=Math.random()*60;
-    bug.style.left=x+"%";
-    bug.style.top=y+"%";
-
-    const move=setInterval(()=>{
-        x+=(Math.random()-0.5)*8;
-        y+=(Math.random()-0.5)*8;
-        bug.style.left=x+"%";
-        bug.style.top=y+"%";
-    },150);
-
-    bug.onclick=()=>{
-        clickSound.play();
-
-        let now=Date.now();
-        combo=(now-lastClick<700)?combo+1:0;
-        lastClick=now;
-
-        let gained=type.point+Math.floor(combo/3);
-        score+=gained;
-
-        document.getElementById("score").innerText=score;
-        document.getElementById("comboFill").style.width=(combo*10)+"%";
-
-        const hit=document.createElement("div");
-        hit.className="hit";
-        hit.style.left=bug.style.left;
-        hit.style.top=bug.style.top;
-        gameArea.appendChild(hit);
-
-        const pop=document.createElement("div");
-        pop.className="score-pop";
-        pop.innerText="+"+gained;
-        pop.style.left=bug.style.left;
-        pop.style.top=bug.style.top;
-        gameArea.appendChild(pop);
-
-        setTimeout(()=>{hit.remove(); pop.remove();},1000);
-
-        clearInterval(move);
+function spawnBug() {
+    if (!gameActive) return;
+    
+    const gameArea = document.getElementById("gameArea");
+    const areaRect = gameArea.getBoundingClientRect();
+    
+    const bug = document.createElement("div");
+    bug.className = "bug";
+    
+    const type = bugTypes[Math.floor(Math.random() * bugTypes.length)];
+    bug.innerText = type.emoji;
+    bug.dataset.points = type.point;
+    bug.dataset.type = type.emoji;
+    
+    // Random position within game area
+    let x = Math.random() * (areaRect.width - 80);
+    let y = Math.random() * (areaRect.height - 80);
+    bug.style.left = x + "px";
+    bug.style.top = y + "px";
+    
+    // Movement direction
+    let dx = (Math.random() - 0.5) * 6;
+    let dy = (Math.random() - 0.5) * 6;
+    
+    const moveInterval = setInterval(() => {
+        if (!gameActive || !bug.parentNode) {
+            clearInterval(moveInterval);
+            return;
+        }
+        
+        let newX = parseFloat(bug.style.left) + dx;
+        let newY = parseFloat(bug.style.top) + dy;
+        
+        // Bounce off walls
+        if (newX <= 0 || newX >= areaRect.width - 80) {
+            dx = -dx;
+            newX = Math.max(0, Math.min(areaRect.width - 80, newX));
+        }
+        if (newY <= 0 || newY >= areaRect.height - 80) {
+            dy = -dy;
+            newY = Math.max(0, Math.min(areaRect.height - 80, newY));
+        }
+        
+        bug.style.left = newX + "px";
+        bug.style.top = newY + "px";
+    }, 50);
+    
+    bug.onclick = (e) => {
+        e.stopPropagation();
+        if (!gameActive) return;
+        
+        playSound();
+        
+        const now = Date.now();
+        if (now - lastClickTime < 700) {
+            combo++;
+        } else {
+            combo = 0;
+        }
+        lastClickTime = now;
+        
+        let gained = type.point + Math.floor(combo / 3);
+        score += gained;
+        
+        const rect = bug.getBoundingClientRect();
+        const areaRect = gameArea.getBoundingClientRect();
+        const hitX = rect.left - areaRect.left + rect.width / 2;
+        const hitY = rect.top - areaRect.top + rect.height / 2;
+        
+        createHitEffect(hitX, hitY);
+        createScorePopup(hitX, hitY, gained);
+        createParticle(hitX, hitY, type.color);
+        
+        updateUI();
+        
+        clearInterval(moveInterval);
         bug.remove();
+        
+        // Remove from active bugs array
+        const index = activeBugs.indexOf(moveInterval);
+        if (index > -1) activeBugs.splice(index, 1);
     };
-
+    
     gameArea.appendChild(bug);
-    setTimeout(()=>{clearInterval(move);bug.remove();},2500);
+    activeBugs.push(moveInterval);
+    
+    // Auto-remove bug after 3 seconds
+    setTimeout(() => {
+        if (bug.parentNode) {
+            clearInterval(moveInterval);
+            bug.remove();
+            const idx = activeBugs.indexOf(moveInterval);
+            if (idx > -1) activeBugs.splice(idx, 1);
+        }
+    }, 3500);
 }
 
-async function endGame(){
-    gameActive=false;
-    clearInterval(timer);
+function startGame() {
+    document.getElementById("ruleScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "flex";
+    gameActive = true;
+    
+    gameTimer = setInterval(() => {
+        if (!gameActive) return;
+        
+        time--;
+        document.getElementById("time").innerText = time;
+        
+        // Increase difficulty
+        if (time % 20 === 0 && currentSpeed > 250) {
+            currentSpeed -= 50;
+            clearInterval(spawnInterval);
+            spawnInterval = setInterval(() => spawnBug(), currentSpeed);
+        }
+        
+        if (time <= 0) {
+            endGame();
+        }
+    }, 1000);
+    
+    spawnInterval = setInterval(() => spawnBug(), currentSpeed);
+    updateUI();
+}
 
-    gameScreen.style.display="none";
-    endScreen.style.display="block";
-
-    const res=await fetch("/updateScore",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({ig:user.ig,score:score})
-    });
-
-    const data=await res.json();
-
-    user.bestScore=data.bestScore;
-    localStorage.setItem("currentUser",JSON.stringify(user));
-
-    document.getElementById("finalScore").innerText=
-        `คุณได้ ${score} คะแนน 💜 Best: ${data.bestScore}`;
+async function endGame() {
+    gameActive = false;
+    clearInterval(gameTimer);
+    clearInterval(spawnInterval);
+    
+    // Clear all active bugs
+    activeBugs.forEach(interval => clearInterval(interval));
+    activeBugs = [];
+    document.getElementById("gameArea").innerHTML = "";
+    
+    try {
+        const res = await fetch("/updateScore", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ig: user.ig, score: score })
+        });
+        
+        const data = await res.json();
+        
+        user.bestScore = data.bestScore;
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        
+        const isNewHighScore = score >= (user.bestScore || 0);
+        
+        document.getElementById("gameScreen").style.display = "none";
+        document.getElementById("endScreen").style.display = "flex";
+        document.getElementById("finalScore").innerText = score;
+        document.getElementById("endEmoji").innerHTML = isNewHighScore ? "🏆✨" : "🎮";
+        document.getElementById("finalScoreTitle").innerHTML = isNewHighScore ? "New High Score!" : "Game Over!";
+        document.getElementById("bestMessage").innerHTML = isNewHighScore 
+            ? `Amazing! You beat your record!` 
+            : `Your best score: ${data.bestScore}`;
+            
+    } catch (error) {
+        console.error("Error saving score:", error);
+        document.getElementById("gameScreen").style.display = "none";
+        document.getElementById("endScreen").style.display = "flex";
+        document.getElementById("finalScore").innerText = score;
+        document.getElementById("bestMessage").innerHTML = `Score: ${score}`;
+    }
 }
 </script>
-
 </body>
 </html>

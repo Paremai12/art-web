@@ -3,126 +3,251 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Register</title>
-
+<title>Register ✨ Events</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     min-height: 100vh;
-    background: radial-gradient(circle at top, #f3e8ff, #ede9fe, #ddd6fe);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Inter', sans-serif;
+    padding: 2rem 0;
+    position: relative;
+}
+
+/* Floating particles */
+.particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-20vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 
 .auth-card {
-    max-width: 520px;
-    margin: 60px auto;
-    border-radius: 24px;
-    border: none;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 20px 60px rgba(124,58,237,0.15);
+    max-width: 600px;
+    margin: auto;
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.auth-card:hover {
+    transform: translateY(-5px);
 }
 
 .auth-title {
-    font-weight: 600;
-    color: #6d28d9;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 1.75rem;
 }
 
 .form-control, .form-select {
     border-radius: 12px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+    padding: 0.75rem 1rem;
 }
 
 .form-control:focus, .form-select:focus {
-    border-color: #a78bfa;
-    box-shadow: 0 0 0 0.2rem rgba(167,139,250,0.25);
+    border-color: #764ba2;
+    box-shadow: 0 0 0 4px rgba(118, 75, 162, 0.1);
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
 }
 
 .btn-purple {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    border-radius: 12px;
+    border-radius: 16px;
+    padding: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-purple:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(118, 75, 162, 0.3);
+}
+
+.auth-link {
+    color: #764ba2;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.auth-link:hover {
+    color: #667eea;
+    text-decoration: underline;
+}
+
+/* Step indicator */
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    gap: 0.5rem;
+}
+
+.step {
+    width: 40px;
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.step.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    width: 60px;
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
-<div class="card auth-card p-4">
+    <div class="card auth-card p-4 p-md-5">
+        <div class="text-center mb-4">
+            <div style="font-size: 3rem;">🎮</div>
+            <h4 class="auth-title mt-2">Join the Adventure!</h4>
+            <p class="text-muted">Create your account to start playing</p>
+        </div>
 
-<h4 class="text-center auth-title mb-4">✨ สมัครเล่น Events ✨</h4>
+        <div class="step-indicator">
+            <div class="step active"></div>
+            <div class="step"></div>
+            <div class="step"></div>
+        </div>
 
-<form id="registerForm">
+        <form id="registerForm">
+            <div class="mb-3">
+                <label class="form-label">✨ OC Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter your character name" required>
+            </div>
 
-<div class="form-floating mb-3">
-<input type="text" class="form-control" id="name" placeholder="OC Name" required>
-<label>OC Name</label>
-</div>
+            <div class="mb-3">
+                <label class="form-label">📸 Instagram OC</label>
+                <input type="text" class="form-control" id="ig" placeholder="@your_instagram" required>
+            </div>
 
-<div class="form-floating mb-3">
-<input type="text" class="form-control" id="ig" placeholder="Instagram" required>
-<label>Instagram OC</label>
-</div>
+            <div class="mb-3">
+                <label class="form-label">🔒 Password</label>
+                <input type="password" class="form-control" id="pw" placeholder="Create a strong password" required>
+            </div>
 
-<div class="form-floating mb-3">
-<input type="password" class="form-control" id="pw" placeholder="Password" required>
-<label>Password</label>
-</div>
+            <div class="mb-3">
+                <label class="form-label">🏛️ Faculty</label>
+                <select class="form-select" id="faculty" required>
+                    <option disabled selected>Select your faculty</option>
+                    <option>Faculty of International Business</option>
+                    <option>Faculty of Engineering</option>
+                    <option>Faculty of Science & Technology</option>
+                    <option>Faculty of Humanities & Social Sciences</option>
+                    <option>Faculty of Communication & Digital Media</option>
+                    <option>Faculty of Arts & Design</option>
+                    <option>Faculty of Law</option>
+                    <option>Faculty of Medicine & Health Sciences</option>
+                    <option>Faculty of Hospitality & Tourism Management</option>
+                    <option>Faculty of International Education</option>
+                    <option>Faculty of Innovation & Emerging Technologies</option>
+                    <option>Faculty of Economics & Public Policy</option>
+                    <option>Faculty of Environmental & Sustainability Studies</option>
+                    <option>Faculty of Creative Industries</option>
+                    <option>Faculty of Culinary Arts & Food Science</option>
+                    <option>Faculty of Global Security & Diplomacy</option>
+                    <option>Faculty of Psychology & Behavioral Sciences</option>
+                    <option>Faculty of Criminology & Forensic Science</option>
+                    <option>Faculty of Aviation & Air Logistics</option>
+                </select>
+            </div>
 
-<div class="mb-3">
-<label class="form-label">Faculty</label>
-<select class="form-select" id="faculty" required>
-<option disabled selected>Choose faculty</option>
-<option>Faculty of International Business</option>
-<option>Faculty of Engineering</option>
-<option>Faculty of Science & Technology</option>
-<option>Faculty of Humanities & Social Sciences</option>
-<option>Faculty of Communication & Digital Media</option>
-<option>Faculty of Arts & Design</option>
-<option>Faculty of Law</option>
-<option>Faculty of Medicine & Health Sciences</option>
-<option>Faculty of Hospitality & Tourism Management</option>
-<option>Faculty of International Education</option>
-<option>Faculty of Innovation & Emerging Technologies</option>
-<option>Faculty of Economics & Public Policy</option>
-<option>Faculty of Environmental & Sustainability Studies</option>
-<option>Faculty of Creative Industries</option>
-<option>Faculty of Culinary Arts & Food Science</option>
-<option>Faculty of Global Security & Diplomacy</option>
-<option>Faculty of Psychology & Behavioral Sciences</option>
-<option>Faculty of Criminology & Forensic Science</option>
-<option>Faculty of Aviation & Air Logistics</option>
-</select>
-</div>
+            <div class="mb-4">
+                <label class="form-label">📚 Year</label>
+                <select class="form-select" id="year" required>
+                    <option disabled selected>Select your year</option>
+                    <option>Freshman (Year 1)</option>
+                    <option>Sophomore (Year 2)</option>
+                    <option>Junior (Year 3)</option>
+                    <option>Senior (Year 4)</option>
+                    <option>Fifth-year / Super Senior</option>
+                </select>
+            </div>
 
-<div class="mb-3">
-<label class="form-label">Year</label>
-<select class="form-select" id="year" required>
-<option disabled selected>Choose year</option>
-<option>Freshman (Year 1)</option>
-<option>Sophomore (Year 2)</option>
-<option>Junior (Year 3)</option>
-<option>Senior (Year 4)</option>
-<option>Fifth-year / Super Senior</option>
-</select>
-</div>
+            <button class="btn btn-purple w-100 py-3" type="submit">
+                Create Account 🚀
+            </button>
+        </form>
 
-<button class="btn btn-purple w-100 py-2">Register</button>
-
-</form>
-
-<div class="text-center mt-3">
-<a href="login.html">Back to login</a>
-</div>
-
-</div>
+        <div class="text-center mt-4">
+            <p class="text-muted mb-0">Already have an account? <a href="login.html" class="auth-link">Sign In</a></p>
+        </div>
+    </div>
 </div>
 
 <script>
+// Create floating particles
+for (let i = 0; i < 30; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    const size = Math.random() * 8 + 2;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDuration = Math.random() * 15 + 5 + 's';
+    particle.style.animationDelay = Math.random() * 5 + 's';
+    document.body.appendChild(particle);
+}
+
 document.getElementById("registerForm").addEventListener("submit", async function(e){
     e.preventDefault();
-
+    
+    const name = document.getElementById("name");
+    const ig = document.getElementById("ig");
+    const pw = document.getElementById("pw");
+    const faculty = document.getElementById("faculty");
+    const year = document.getElementById("year");
+    
+    const btn = this.querySelector('button');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Creating account...';
+    btn.disabled = true;
+    
     const user = {
         name: name.value.trim(),
         ig: ig.value.trim(),
@@ -130,23 +255,35 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         faculty: faculty.value,
         year: year.value
     };
-
-    const res = await fetch("/register", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(user)
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-        alert("สมัครสำเร็จ 💜");
-        location.href = "login.html";
-    } else {
-        alert("IG ซ้ำ ❌");
+    
+    try {
+        const res = await fetch("/register", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(user)
+        });
+        
+        const data = await res.json();
+        
+        if (data.success) {
+            btn.style.background = "linear-gradient(135deg, #10b981, #059669)";
+            btn.innerHTML = "✓ Account Created!";
+            
+            setTimeout(() => {
+                alert("✨ Registration Successful! Please login to continue. ✨");
+                location.href = "login.html";
+            }, 800);
+        } else {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            alert("❌ Instagram username already exists. Please use a different one.");
+        }
+    } catch (error) {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        alert("❌ Connection error. Please try again.");
     }
 });
 </script>
-
 </body>
 </html>
