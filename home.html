@@ -1,868 +1,951 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-<meta charset="UTF-8">
-<title>Catch Bugs ✨ Ultimate Challenge</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    user-select: none;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Catch Bugs ✨ Ultimate Challenge</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
 
-body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    overflow: hidden;
-    position: relative;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
 
-/* Animated gradient orbs */
-.orb-bg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 0;
-}
+        /* Animated background */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: floatOrb 25s ease-in-out infinite;
+        }
 
-.orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.4;
-    animation: floatOrb 25s ease-in-out infinite;
-}
+        .orb-1 {
+            top: -20%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #f093fb, #f5576c);
+        }
 
-.orb-1 {
-    top: -20%;
-    left: -10%;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, #f093fb, #f5576c);
-}
+        .orb-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #4facfe, #00f2fe);
+            animation-delay: -8s;
+        }
 
-.orb-2 {
-    bottom: -20%;
-    right: -10%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, #4facfe, #00f2fe);
-    animation-delay: -8s;
-}
+        .orb-3 {
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #43e97b, #38f9d7);
+            animation-delay: -15s;
+            transform: translate(-50%, -50%);
+        }
 
-.orb-3 {
-    top: 50%;
-    left: 50%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, #43e97b, #38f9d7);
-    animation-delay: -15s;
-    transform: translate(-50%, -50%);
-}
+        @keyframes floatOrb {
 
-@keyframes floatOrb {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(50px, -50px) scale(1.2); }
-    66% { transform: translate(-30px, 30px) scale(0.8); }
-}
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
 
-.game-wrapper {
-    position: relative;
-    z-index: 1;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
+            33% {
+                transform: translate(50px, -50px) scale(1.2);
+            }
 
-/* Header with logout button */
-.game-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    margin: 1rem 1.5rem 0 1.5rem;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
-    border-radius: 60px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
+            66% {
+                transform: translate(-30px, 30px) scale(0.8);
+            }
+        }
 
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 6px 16px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 40px;
-}
+        .game-wrapper {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-.user-avatar {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, #f093fb, #f5576c);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-}
+        /* Header */
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            margin: 1rem 1.5rem 0 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
 
-.user-name {
-    color: white;
-    font-weight: 600;
-}
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 40px;
+        }
 
-.btn-logout {
-    background: rgba(239, 68, 68, 0.8);
-    backdrop-filter: blur(10px);
-    border: none;
-    border-radius: 40px;
-    padding: 8px 20px;
-    color: white;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
 
-.btn-logout:hover {
-    background: #ef4444;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
-}
+        .user-name {
+            color: white;
+            font-weight: 600;
+        }
 
-/* HUD */
-.hud {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem 2rem;
-    margin: 0.5rem 1.5rem;
-    border-radius: 80px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.8);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 40px;
+            padding: 8px 20px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
 
-.stat-card {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 24px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 40px;
-}
+        .btn-logout:hover {
+            background: #ef4444;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+        }
 
-.stat-icon {
-    font-size: 1.8rem;
-}
+        /* HUD */
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            margin: 0.5rem 1.5rem;
+            border-radius: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
 
-.stat-value {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: white;
-    line-height: 1;
-}
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 24px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 40px;
+        }
 
-.stat-label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: rgba(255, 255, 255, 0.7);
-}
+        .stat-icon {
+            font-size: 1.8rem;
+        }
 
-/* Combo system */
-.combo-container {
-    margin: 0 1.5rem 0.5rem 1.5rem;
-}
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+        }
 
-.combo-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    color: white;
-    font-weight: 600;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.7);
+        }
 
-.combo-bar {
-    height: 8px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    overflow: hidden;
-}
+        /* Combo system */
+        .combo-container {
+            margin: 0 1.5rem 0.5rem 1.5rem;
+        }
 
-.combo-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #f093fb, #f5576c);
-    border-radius: 20px;
-    transition: width 0.15s ease;
-    box-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
-}
+        .combo-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-/* Game Area */
-.game-area {
-    flex: 1;
-    margin: 0 1.5rem 1.5rem 1.5rem;
-    border-radius: 32px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    position: relative;
-    overflow: hidden;
-    cursor: crosshair;
-}
+        .combo-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+        }
 
-/* Bug styling */
-.bug {
-    position: absolute;
-    font-size: 3rem;
-    cursor: pointer;
-    transition: transform 0.1s ease, filter 0.1s ease;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-    z-index: 10;
-}
+        .combo-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            border-radius: 20px;
+            transition: width 0.15s ease;
+            box-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
+        }
 
-.bug:hover {
-    transform: scale(1.3);
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
-}
+        /* Game Area - IMPORTANT FIX */
+        .game-area {
+            flex: 1;
+            margin: 0 1.5rem 1.5rem 1.5rem;
+            border-radius: 32px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            min-height: 300px;
+        }
 
-.hit-effect {
-    position: absolute;
-    pointer-events: none;
-    animation: hitExplode 0.4s ease-out forwards;
-}
+        /* Bug styling */
+        .bug {
+            position: absolute;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: transform 0.1s ease, filter 0.1s ease;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            z-index: 10;
+        }
 
-@keyframes hitExplode {
-    0% { transform: scale(0); opacity: 1; }
-    100% { transform: scale(4); opacity: 0; }
-}
+        .bug:hover {
+            transform: scale(1.3);
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+        }
 
-.score-pop {
-    position: absolute;
-    pointer-events: none;
-    font-weight: 800;
-    font-size: 1.5rem;
-    animation: floatScore 1s ease-out forwards;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    z-index: 20;
-}
+        .hit-effect {
+            position: absolute;
+            pointer-events: none;
+            animation: hitExplode 0.4s ease-out forwards;
+        }
 
-@keyframes floatScore {
-    0% { transform: translateY(0) scale(0.5); opacity: 1; }
-    100% { transform: translateY(-80px) scale(1.2); opacity: 0; }
-}
+        @keyframes hitExplode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
 
-/* Popup screens */
-.popup-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(20px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    animation: fadeIn 0.3s ease;
-}
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
 
-.popup-card {
-    max-width: 500px;
-    width: 90%;
-    background: rgba(255, 255, 255, 0.98);
-    border-radius: 48px;
-    padding: 2rem;
-    text-align: center;
-    animation: slideUp 0.4s ease;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-}
+        .score-pop {
+            position: absolute;
+            pointer-events: none;
+            font-weight: 800;
+            font-size: 1.5rem;
+            animation: floatScore 1s ease-out forwards;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 20;
+        }
 
-/* Leaderboard in end screen */
-.end-leaderboard {
-    max-width: 700px;
-    width: 95%;
-}
+        @keyframes floatScore {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 1;
+            }
 
-.leaderboard-preview {
-    max-height: 400px;
-    overflow-y: auto;
-    margin: 1rem 0;
-    border-radius: 24px;
-    background: #f8f9fa;
-}
+            100% {
+                transform: translateY(-80px) scale(1.2);
+                opacity: 0;
+            }
+        }
 
-.leaderboard-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    border-bottom: 1px solid #e9ecef;
-    transition: all 0.3s ease;
-}
+        /* Popup screens */
+        .popup-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            animation: fadeIn 0.3s ease;
+        }
 
-.leaderboard-item:hover {
-    background: linear-gradient(90deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-}
+        .popup-card {
+            max-width: 500px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 48px;
+            padding: 2rem;
+            text-align: center;
+            animation: slideUp 0.4s ease;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
 
-.leaderboard-rank {
-    width: 40px;
-    font-weight: 800;
-    font-size: 1.2rem;
-}
+        /* Leaderboard in end screen */
+        .end-leaderboard {
+            max-width: 700px;
+            width: 95%;
+        }
 
-.rank-1-text { color: #ffd700; text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
-.rank-2-text { color: #c0c0c0; }
-.rank-3-text { color: #cd7f32; }
+        .leaderboard-preview {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 1rem 0;
+            border-radius: 24px;
+            background: #f8f9fa;
+        }
 
-.leaderboard-avatar {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-}
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
 
-.leaderboard-info {
-    flex: 1;
-    text-align: left;
-}
+        .leaderboard-item:hover {
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        }
 
-.leaderboard-name {
-    font-weight: 600;
-    color: #1f2937;
-}
+        .leaderboard-rank {
+            width: 40px;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
 
-.leaderboard-score {
-    font-weight: 800;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-size: 1.1rem;
-}
+        .rank-1-text {
+            color: #ffd700;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
 
-.your-rank-badge {
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
+        .rank-2-text {
+            color: #c0c0c0;
+        }
 
-.rank-change {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 20px;
-}
+        .rank-3-text {
+            color: #cd7f32;
+        }
 
-.rank-up {
-    background: #d1fae5;
-    color: #059669;
-}
+        .leaderboard-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
 
-.rank-down {
-    background: #fee2e2;
-    color: #dc2626;
-}
+        .leaderboard-info {
+            flex: 1;
+            text-align: left;
+        }
 
-.rank-steady {
-    background: #fef3c7;
-    color: #d97706;
-}
+        .leaderboard-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+        .leaderboard-score {
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 1.1rem;
+        }
 
-@keyframes slideUp {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
+        .your-rank-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
 
-.btn-game {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    border: none;
-    border-radius: 60px;
-    padding: 14px 32px;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    margin: 8px;
-}
+        .rank-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
 
-.btn-game:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(118, 75, 162, 0.4);
-}
+        .rank-up {
+            background: #d1fae5;
+            color: #059669;
+        }
 
-.btn-secondary-game {
-    background: linear-gradient(135deg, #6c757d, #495057);
-}
+        .rank-down {
+            background: #fee2e2;
+            color: #dc2626;
+        }
 
-.rules-list {
-    text-align: left;
-    margin: 1.5rem 0;
-    padding: 0;
-    list-style: none;
-}
+        .rank-steady {
+            background: #fef3c7;
+            color: #d97706;
+        }
 
-.rules-list li {
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
 
-.bug-icon {
-    font-size: 1.5rem;
-    width: 40px;
-    display: inline-block;
-}
+            to {
+                opacity: 1;
+            }
+        }
 
-.particle {
-    position: absolute;
-    pointer-events: none;
-    animation: particleFloat 1s ease-out forwards;
-}
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
 
-@keyframes particleFloat {
-    0% { transform: translateY(0) scale(1); opacity: 1; }
-    100% { transform: translateY(-100px) scale(0); opacity: 0; }
-}
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
 
-/* Scrollbar */
-.leaderboard-preview::-webkit-scrollbar {
-    width: 6px;
-}
+        .btn-game {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            padding: 14px 32px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin: 8px;
+        }
 
-.leaderboard-preview::-webkit-scrollbar-track {
-    background: #e9ecef;
-    border-radius: 10px;
-}
+        .btn-game:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(118, 75, 162, 0.4);
+        }
 
-.leaderboard-preview::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    border-radius: 10px;
-}
-</style>
+        .btn-secondary-game {
+            background: linear-gradient(135deg, #6c757d, #495057);
+        }
+
+        .rules-list {
+            text-align: left;
+            margin: 1.5rem 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .rules-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bug-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            display: inline-block;
+        }
+
+        /* Scrollbar */
+        .leaderboard-preview::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .leaderboard-preview::-webkit-scrollbar-track {
+            background: #e9ecef;
+            border-radius: 10px;
+        }
+
+        .leaderboard-preview::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stat-card {
+                padding: 6px 12px;
+                gap: 6px;
+            }
+
+            .stat-value {
+                font-size: 1.2rem;
+            }
+
+            .stat-icon {
+                font-size: 1.2rem;
+            }
+
+            .bug {
+                font-size: 2rem;
+            }
+
+            .game-header {
+                margin: 0.5rem 1rem 0 1rem;
+            }
+
+            .hud {
+                margin: 0.5rem 1rem;
+            }
+
+            .combo-container {
+                margin: 0 1rem 0.5rem 1rem;
+            }
+
+            .game-area {
+                margin: 0 1rem 1rem 1rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="orb-bg">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
-</div>
 
-<div class="game-wrapper" id="gameWrapper">
-    <!-- Rule Screen -->
-    <div id="ruleScreen" class="popup-screen">
-        <div class="popup-card">
-            <div style="font-size: 4rem;">🐛✨</div>
-            <h2 class="mt-3" style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800;">Catch Bugs!</h2>
-            <p class="text-muted">Challenge your reflexes</p>
-            
-            <ul class="rules-list">
-                <li><span class="bug-icon">🐛</span> Normal Bug <span style="margin-left: auto; font-weight: 700; color: #10b981;">+1</span></li>
-                <li><span class="bug-icon">🐞</span> Ladybug <span style="margin-left: auto; font-weight: 700; color: #10b981;">+5</span></li>
-                <li><span class="bug-icon">🦋</span> Butterfly <span style="margin-left: auto; font-weight: 700; color: #f59e0b;">+10</span></li>
-                <li><span class="bug-icon">🕷️</span> Spider <span style="margin-left: auto; font-weight: 700; color: #ef4444;">-2</span></li>
-            </ul>
-            
-            <div class="mb-3" style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 12px; border-radius: 20px;">
-                <span style="font-weight: 700;">🔥 Combo System:</span>
-                <span class="text-muted" style="font-size: 0.85rem;">Click fast to build combo! +1 per 3 combo</span>
-            </div>
-            
-            <button class="btn-game" onclick="startGame()">
-                <i class="fas fa-play me-2"></i>Start Game
-            </button>
-            <button class="btn-game btn-secondary-game" onclick="logout()">
-                <i class="fas fa-sign-out-alt me-2"></i>Logout
-            </button>
-        </div>
-    </div>
+    <div class="game-wrapper">
+        <!-- Rule Screen -->
+        <div id="ruleScreen" class="popup-screen">
+            <div class="popup-card">
+                <div style="font-size: 4rem;">🐛✨</div>
+                <h2 class="mt-3"
+                    style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800;">
+                    Catch Bugs!</h2>
+                <p class="text-muted">Challenge your reflexes</p>
 
-    <!-- Game Screen -->
-    <div id="gameScreen" style="display: none;">
-        <div class="game-header">
-            <div class="user-info">
-                <div class="user-avatar" id="userAvatar">👤</div>
-                <span class="user-name" id="userName"></span>
-            </div>
-            <button class="btn-logout" onclick="logout()">
-                <i class="fas fa-sign-out-alt me-2"></i>Logout
-            </button>
-        </div>
+                <ul class="rules-list">
+                    <li><span class="bug-icon">🐛</span> Normal Bug <span
+                            style="margin-left: auto; font-weight: 700; color: #10b981;">+1</span></li>
+                    <li><span class="bug-icon">🐞</span> Ladybug <span
+                            style="margin-left: auto; font-weight: 700; color: #10b981;">+5</span></li>
+                    <li><span class="bug-icon">🦋</span> Butterfly <span
+                            style="margin-left: auto; font-weight: 700; color: #f59e0b;">+10</span></li>
+                    <li><span class="bug-icon">🕷️</span> Spider <span
+                            style="margin-left: auto; font-weight: 700; color: #ef4444;">-2</span></li>
+                </ul>
 
-        <div class="hud">
-            <div class="stat-card">
-                <div class="stat-icon">⏱️</div>
-                <div>
-                    <div class="stat-value" id="time">120</div>
-                    <div class="stat-label">Seconds</div>
+                <div class="mb-3"
+                    style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 12px; border-radius: 20px;">
+                    <span style="font-weight: 700;">🔥 Combo System:</span>
+                    <span class="text-muted" style="font-size: 0.85rem;">Click fast to build combo! +1 per 3
+                        combo</span>
                 </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⭐</div>
-                <div>
-                    <div class="stat-value" id="score">0</div>
-                    <div class="stat-label">Score</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🏆</div>
-                <div>
-                    <div class="stat-value" id="best">0</div>
-                    <div class="stat-label">Best</div>
-                </div>
-            </div>
-        </div>
 
-        <div class="combo-container">
-            <div class="combo-header">
-                <span><i class="fas fa-fire"></i> COMBO x<span id="comboCount">0</span></span>
-                <span id="comboBonus" style="color: #f093fb;">+0</span>
-            </div>
-            <div class="combo-bar">
-                <div class="combo-fill" id="comboFill"></div>
-            </div>
-        </div>
-
-        <div class="game-area" id="gameArea"></div>
-    </div>
-
-    <!-- End Screen with Leaderboard -->
-    <div id="endScreen" class="popup-screen" style="display: none;">
-        <div class="popup-card end-leaderboard">
-            <div style="font-size: 4rem;" id="endEmoji">🎉</div>
-            <h2 class="mt-2" id="finalScoreTitle">Game Over!</h2>
-            
-            <div class="row mt-3">
-                <div class="col-6">
-                    <div class="p-3" style="background: linear-gradient(135deg, #667eea10, #764ba210); border-radius: 24px;">
-                        <div class="text-muted small">YOUR SCORE</div>
-                        <div class="display-4 fw-bold" style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent;" id="finalScore">0</div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="p-3" style="background: linear-gradient(135deg, #667eea10, #764ba210); border-radius: 24px;">
-                        <div class="text-muted small">BEST SCORE</div>
-                        <div class="display-4 fw-bold" style="color: #f59e0b;" id="bestScoreDisplay">0</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-3 p-2" id="rankChangeDisplay"></div>
-            
-            <div class="leaderboard-preview" id="endLeaderboard">
-                <div class="text-center p-3">
-                    <div class="spinner-border text-purple" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-3">
-                <button class="btn-game" onclick="location.reload()">
-                    <i class="fas fa-redo-alt me-2"></i>Play Again
+                <button class="btn-game" onclick="startGame()">
+                    <i class="fas fa-play me-2"></i>Start Game
                 </button>
-                <button class="btn-game btn-secondary-game" onclick="goToHome()">
-                    <i class="fas fa-home me-2"></i>Main Menu
+                <button class="btn-game btn-secondary-game" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
                 </button>
             </div>
         </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" style="display: none; flex: 1; display: flex; flex-direction: column;">
+            <div class="game-header">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">👤</div>
+                    <span class="user-name" id="userName"></span>
+                </div>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </button>
+            </div>
+
+            <div class="hud">
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div>
+                        <div class="stat-value" id="time">120</div>
+                        <div class="stat-label">SECONDS</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div>
+                        <div class="stat-value" id="score">0</div>
+                        <div class="stat-label">SCORE</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div>
+                        <div class="stat-value" id="best">0</div>
+                        <div class="stat-label">BEST</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="combo-container">
+                <div class="combo-header">
+                    <span><i class="fas fa-fire"></i> COMBO x<span id="comboCount">0</span></span>
+                    <span id="comboBonus" style="color: #f093fb;">+0</span>
+                </div>
+                <div class="combo-bar">
+                    <div class="combo-fill" id="comboFill"></div>
+                </div>
+            </div>
+
+            <!-- GAME AREA - แก้ไขให้แสดงผลชัดเจน -->
+            <div id="gameArea" class="game-area">
+                <div
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(255,255,255,0.5); text-align: center; pointer-events: none;">
+                    <i class="fas fa-bug fa-3x"></i>
+                    <p style="margin-top: 10px;">Click Start to Play!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Screen -->
+        <div id="endScreen" class="popup-screen" style="display: none;">
+            <div class="popup-card end-leaderboard">
+                <div style="font-size: 4rem;" id="endEmoji">🎉</div>
+                <h2 class="mt-2" id="finalScoreTitle">Game Over!</h2>
+
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <div class="p-3"
+                            style="background: linear-gradient(135deg, #667eea10, #764ba210); border-radius: 24px;">
+                            <div class="text-muted small">YOUR SCORE</div>
+                            <div class="display-4 fw-bold"
+                                style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent;"
+                                id="finalScore">0</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3"
+                            style="background: linear-gradient(135deg, #667eea10, #764ba210); border-radius: 24px;">
+                            <div class="text-muted small">BEST SCORE</div>
+                            <div class="display-4 fw-bold" style="color: #f59e0b;" id="bestScoreDisplay">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3 p-2" id="rankChangeDisplay"></div>
+
+                <div class="leaderboard-preview" id="endLeaderboard">
+                    <div class="text-center p-3">
+                        <div class="spinner-border text-purple" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <button class="btn-game" onclick="location.reload()">
+                        <i class="fas fa-redo-alt me-2"></i>Play Again
+                    </button>
+                    <button class="btn-game btn-secondary-game" onclick="logout()">
+                        <i class="fas fa-home me-2"></i>Main Menu
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<audio id="clickSound" preload="auto">
-    <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
-</audio>
+    <audio id="clickSound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+    </audio>
 
-<script>
-// Game variables
-let score = 0, time = 120, combo = 0, lastClickTime = 0;
-let gameActive = false;
-let gameTimer = null;
-let currentSpeed = 600;
-let spawnInterval = null;
-let activeBugs = [];
+    <script>
+        // Game variables
+        let score = 0, time = 120, combo = 0, lastClickTime = 0;
+        let gameActive = false;
+        let gameTimer = null;
+        let currentSpeed = 600;
+        let spawnInterval = null;
+        let activeBugs = [];
 
-const user = JSON.parse(localStorage.getItem("currentUser"));
-if (!user) location.href = "login.html";
+        const user = JSON.parse(localStorage.getItem("currentUser"));
+        if (!user) location.href = "login.html";
 
-// Set user info
-document.getElementById("userName").innerText = user.name || user.ig;
-document.getElementById("userAvatar").innerHTML = user.name ? user.name.charAt(0).toUpperCase() : "👤";
-document.getElementById("best").innerText = user.bestScore || 0;
+        // Set user info
+        document.getElementById("userName").innerText = user.name || user.ig;
+        document.getElementById("userAvatar").innerHTML = user.name ? user.name.charAt(0).toUpperCase() : "👤";
+        document.getElementById("best").innerText = user.bestScore || 0;
 
-const bugTypes = [
-    { emoji: "🐛", point: 1, color: "#10b981" },
-    { emoji: "🐞", point: 5, color: "#ef4444" },
-    { emoji: "🦋", point: 10, color: "#f59e0b" },
-    { emoji: "🕷️", point: -2, color: "#6b7280" }
-];
+        const bugTypes = [
+            { emoji: "🐛", point: 1, color: "#10b981" },
+            { emoji: "🐞", point: 5, color: "#ef4444" },
+            { emoji: "🦋", point: 10, color: "#f59e0b" },
+            { emoji: "🕷️", point: -2, color: "#6b7280" }
+        ];
 
-function playSound() {
-    const audio = document.getElementById("clickSound");
-    audio.currentTime = 0;
-    audio.play().catch(e => console.log("Audio play failed:", e));
-}
-
-function updateUI() {
-    document.getElementById("score").innerText = score;
-    document.getElementById("time").innerText = time;
-    document.getElementById("comboCount").innerText = combo;
-    const bonus = Math.floor(combo / 3);
-    document.getElementById("comboBonus").innerHTML = bonus > 0 ? `+${bonus}` : "";
-    document.getElementById("comboFill").style.width = Math.min((combo / 20) * 100, 100) + "%";
-}
-
-function createParticle(x, y, color) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.innerHTML = '⚡';
-    particle.style.position = 'absolute';
-    particle.style.left = x + 'px';
-    particle.style.top = y + 'px';
-    particle.style.fontSize = '20px';
-    particle.style.color = color;
-    document.getElementById("gameArea").appendChild(particle);
-    setTimeout(() => particle.remove(), 1000);
-}
-
-function createHitEffect(x, y) {
-    const effect = document.createElement('div');
-    effect.className = 'hit-effect';
-    effect.style.position = 'absolute';
-    effect.style.left = x + 'px';
-    effect.style.top = y + 'px';
-    effect.style.width = '20px';
-    effect.style.height = '20px';
-    effect.style.borderRadius = '50%';
-    effect.style.background = 'radial-gradient(circle, #f093fb, #f5576c)';
-    effect.style.pointerEvents = 'none';
-    document.getElementById("gameArea").appendChild(effect);
-    setTimeout(() => effect.remove(), 400);
-}
-
-function createScorePopup(x, y, points) {
-    const popup = document.createElement('div');
-    popup.className = 'score-pop';
-    popup.innerText = points > 0 ? `+${points}` : `${points}`;
-    popup.style.color = points > 0 ? '#10b981' : '#ef4444';
-    popup.style.left = x + 'px';
-    popup.style.top = y + 'px';
-    document.getElementById("gameArea").appendChild(popup);
-    setTimeout(() => popup.remove(), 1000);
-}
-
-function spawnBug() {
-    if (!gameActive) return;
-    
-    const gameArea = document.getElementById("gameArea");
-    const areaRect = gameArea.getBoundingClientRect();
-    
-    const bug = document.createElement("div");
-    bug.className = "bug";
-    
-    const type = bugTypes[Math.floor(Math.random() * bugTypes.length)];
-    bug.innerText = type.emoji;
-    bug.dataset.points = type.point;
-    
-    let x = Math.random() * (areaRect.width - 80);
-    let y = Math.random() * (areaRect.height - 80);
-    bug.style.left = x + "px";
-    bug.style.top = y + "px";
-    
-    let dx = (Math.random() - 0.5) * 6;
-    let dy = (Math.random() - 0.5) * 6;
-    
-    const moveInterval = setInterval(() => {
-        if (!gameActive || !bug.parentNode) {
-            clearInterval(moveInterval);
-            return;
+        function playSound() {
+            const audio = document.getElementById("clickSound");
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log("Audio play failed:", e));
         }
-        
-        let newX = parseFloat(bug.style.left) + dx;
-        let newY = parseFloat(bug.style.top) + dy;
-        
-        if (newX <= 0 || newX >= areaRect.width - 80) {
-            dx = -dx;
-            newX = Math.max(0, Math.min(areaRect.width - 80, newX));
+
+        function updateUI() {
+            document.getElementById("score").innerText = score;
+            document.getElementById("time").innerText = time;
+            document.getElementById("comboCount").innerText = combo;
+            const bonus = Math.floor(combo / 3);
+            document.getElementById("comboBonus").innerHTML = bonus > 0 ? `+${bonus}` : "";
+            document.getElementById("comboFill").style.width = Math.min((combo / 20) * 100, 100) + "%";
         }
-        if (newY <= 0 || newY >= areaRect.height - 80) {
-            dy = -dy;
-            newY = Math.max(0, Math.min(areaRect.height - 80, newY));
+
+        function createHitEffect(x, y) {
+            const effect = document.createElement('div');
+            effect.className = 'hit-effect';
+            effect.style.left = x + 'px';
+            effect.style.top = y + 'px';
+            effect.style.width = '20px';
+            effect.style.height = '20px';
+            effect.style.borderRadius = '50%';
+            effect.style.background = 'radial-gradient(circle, #f093fb, #f5576c)';
+            effect.style.position = 'absolute';
+            effect.style.pointerEvents = 'none';
+            document.getElementById("gameArea").appendChild(effect);
+            setTimeout(() => effect.remove(), 400);
         }
-        
-        bug.style.left = newX + "px";
-        bug.style.top = newY + "px";
-    }, 50);
-    
-    bug.onclick = (e) => {
-        e.stopPropagation();
-        if (!gameActive) return;
-        
-        playSound();
-        
-        const now = Date.now();
-        if (now - lastClickTime < 700) {
-            combo++;
-        } else {
+
+        function createScorePopup(x, y, points) {
+            const popup = document.createElement('div');
+            popup.className = 'score-pop';
+            popup.innerText = points > 0 ? `+${points}` : `${points}`;
+            popup.style.color = points > 0 ? '#10b981' : '#ef4444';
+            popup.style.left = x + 'px';
+            popup.style.top = y + 'px';
+            popup.style.position = 'absolute';
+            document.getElementById("gameArea").appendChild(popup);
+            setTimeout(() => popup.remove(), 1000);
+        }
+
+        function spawnBug() {
+            if (!gameActive) return;
+
+            const gameArea = document.getElementById("gameArea");
+            const areaRect = gameArea.getBoundingClientRect();
+
+            if (areaRect.width === 0 || areaRect.height === 0) return;
+
+            const bug = document.createElement("div");
+            bug.className = "bug";
+
+            const type = bugTypes[Math.floor(Math.random() * bugTypes.length)];
+            bug.innerText = type.emoji;
+            bug.dataset.points = type.point;
+
+            let x = Math.random() * (areaRect.width - 80);
+            let y = Math.random() * (areaRect.height - 80);
+            bug.style.left = Math.max(0, Math.min(areaRect.width - 80, x)) + "px";
+            bug.style.top = Math.max(0, Math.min(areaRect.height - 80, y)) + "px";
+
+            let dx = (Math.random() - 0.5) * 5;
+            let dy = (Math.random() - 0.5) * 5;
+
+            const moveInterval = setInterval(() => {
+                if (!gameActive || !bug.parentNode) {
+                    clearInterval(moveInterval);
+                    return;
+                }
+
+                let newX = parseFloat(bug.style.left) + dx;
+                let newY = parseFloat(bug.style.top) + dy;
+
+                if (newX <= 0 || newX >= areaRect.width - 80) {
+                    dx = -dx;
+                    newX = Math.max(0, Math.min(areaRect.width - 80, newX));
+                }
+                if (newY <= 0 || newY >= areaRect.height - 80) {
+                    dy = -dy;
+                    newY = Math.max(0, Math.min(areaRect.height - 80, newY));
+                }
+
+                bug.style.left = newX + "px";
+                bug.style.top = newY + "px";
+            }, 50);
+
+            bug.onclick = (e) => {
+                e.stopPropagation();
+                if (!gameActive) return;
+
+                playSound();
+
+                const now = Date.now();
+                if (now - lastClickTime < 700) {
+                    combo++;
+                } else {
+                    combo = 0;
+                }
+                lastClickTime = now;
+
+                let gained = type.point + Math.floor(combo / 3);
+                score += gained;
+
+                const rect = bug.getBoundingClientRect();
+                const areaRectBounds = gameArea.getBoundingClientRect();
+                const hitX = rect.left - areaRectBounds.left + rect.width / 2;
+                const hitY = rect.top - areaRectBounds.top + rect.height / 2;
+
+                createHitEffect(hitX, hitY);
+                createScorePopup(hitX, hitY, gained);
+
+                updateUI();
+
+                clearInterval(moveInterval);
+                bug.remove();
+
+                const index = activeBugs.indexOf(moveInterval);
+                if (index > -1) activeBugs.splice(index, 1);
+            };
+
+            gameArea.appendChild(bug);
+            activeBugs.push(moveInterval);
+
+            setTimeout(() => {
+                if (bug.parentNode) {
+                    clearInterval(moveInterval);
+                    bug.remove();
+                    const idx = activeBugs.indexOf(moveInterval);
+                    if (idx > -1) activeBugs.splice(idx, 1);
+                }
+            }, 3500);
+        }
+
+        function startGame() {
+            // Clear game area first
+            const gameArea = document.getElementById("gameArea");
+            gameArea.innerHTML = "";
+
+            document.getElementById("ruleScreen").style.display = "none";
+            document.getElementById("gameScreen").style.display = "flex";
+            gameActive = true;
+
+            // Reset game variables
+            score = 0;
+            time = 120;
             combo = 0;
-        }
-        lastClickTime = now;
-        
-        let gained = type.point + Math.floor(combo / 3);
-        score += gained;
-        
-        const rect = bug.getBoundingClientRect();
-        const areaRect = gameArea.getBoundingClientRect();
-        const hitX = rect.left - areaRect.left + rect.width / 2;
-        const hitY = rect.top - areaRect.top + rect.height / 2;
-        
-        createHitEffect(hitX, hitY);
-        createScorePopup(hitX, hitY, gained);
-        createParticle(hitX, hitY, type.color);
-        
-        updateUI();
-        
-        clearInterval(moveInterval);
-        bug.remove();
-        
-        const index = activeBugs.indexOf(moveInterval);
-        if (index > -1) activeBugs.splice(index, 1);
-    };
-    
-    gameArea.appendChild(bug);
-    activeBugs.push(moveInterval);
-    
-    setTimeout(() => {
-        if (bug.parentNode) {
-            clearInterval(moveInterval);
-            bug.remove();
-            const idx = activeBugs.indexOf(moveInterval);
-            if (idx > -1) activeBugs.splice(idx, 1);
-        }
-    }, 3500);
-}
+            currentSpeed = 600;
+            lastClickTime = 0;
+            activeBugs = [];
+            updateUI();
 
-function startGame() {
-    document.getElementById("ruleScreen").style.display = "none";
-    document.getElementById("gameScreen").style.display = "flex";
-    gameActive = true;
-    
-    gameTimer = setInterval(() => {
-        if (!gameActive) return;
-        
-        time--;
-        document.getElementById("time").innerText = time;
-        
-        if (time % 20 === 0 && currentSpeed > 250) {
-            currentSpeed -= 50;
-            clearInterval(spawnInterval);
+            gameTimer = setInterval(() => {
+                if (!gameActive) return;
+
+                time--;
+                document.getElementById("time").innerText = time;
+
+                if (time % 20 === 0 && currentSpeed > 250) {
+                    currentSpeed -= 50;
+                    clearInterval(spawnInterval);
+                    spawnInterval = setInterval(() => spawnBug(), currentSpeed);
+                }
+
+                if (time <= 0) {
+                    endGame();
+                }
+            }, 1000);
+
             spawnInterval = setInterval(() => spawnBug(), currentSpeed);
         }
-        
-        if (time <= 0) {
-            endGame();
+
+        async function getLeaderboard() {
+            try {
+                const res = await fetch("/users");
+                const data = await res.json();
+                return data.sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
+            } catch (error) {
+                console.error("Error fetching leaderboard:", error);
+                return [];
+            }
         }
-    }, 1000);
-    
-    spawnInterval = setInterval(() => spawnBug(), currentSpeed);
-    updateUI();
-}
 
-async function getLeaderboard() {
-    try {
-        const res = await fetch("/users");
-        const data = await res.json();
-        return data.sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
-    } catch (error) {
-        console.error("Error fetching leaderboard:", error);
-        return [];
-    }
-}
+        function calculateRankChange(leaderboard, currentUser, currentScore) {
+            const previousLeaderboard = [...leaderboard];
+            const userIndex = previousLeaderboard.findIndex(u => u.ig === currentUser.ig);
 
-function calculateRankChange(leaderboard, currentUser, currentScore) {
-    // Find previous rank (before this game)
-    const previousLeaderboard = leaderboard.filter(u => u.ig !== currentUser.ig);
-    previousLeaderboard.push({ ...currentUser, bestScore: currentUser.bestScore || 0 });
-    const sortedPrev = previousLeaderboard.sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
-    const prevRank = sortedPrev.findIndex(u => u.ig === currentUser.ig) + 1;
-    
-    // Find new rank (after this game)
-    const newLeaderboard = [...leaderboard];
-    const userIndex = newLeaderboard.findIndex(u => u.ig === currentUser.ig);
-    if (userIndex !== -1) {
-        newLeaderboard[userIndex].bestScore = currentScore;
-    } else {
-        newLeaderboard.push({ ...currentUser, bestScore: currentScore });
-    }
-    const sortedNew = newLeaderboard.sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
-    const newRank = sortedNew.findIndex(u => u.ig === currentUser.ig) + 1;
-    
-    const change = prevRank - newRank;
-    return { change, prevRank, newRank };
-}
+            let oldScore = currentUser.bestScore || 0;
 
-async function showEndScreenWithLeaderboard() {
-    const leaderboard = await getLeaderboard();
-    const currentScore = score;
-    const oldBestScore = user.bestScore || 0;
-    const isNewHighScore = currentScore > oldBestScore;
-    
-    // Update best score display
-    document.getElementById("bestScoreDisplay").innerText = Math.max(oldBestScore, currentScore);
-    
-    // Calculate rank change
-    const { change, prevRank, newRank } = calculateRankChange(leaderboard, user, currentScore);
-    
-    let rankChangeHtml = '';
-    if (change > 0) {
-        rankChangeHtml = `<div class="rank-change rank-up"><i class="fas fa-arrow-up"></i> Rank +${change} (${prevRank} → ${newRank})</div>`;
-    } else if (change < 0) {
-        rankChangeHtml = `<div class="rank-change rank-down"><i class="fas fa-arrow-down"></i> Rank ${change} (${prevRank} → ${newRank})</div>`;
-    } else {
-        rankChangeHtml = `<div class="rank-change rank-steady"><i class="fas fa-minus"></i> Rank unchanged (${newRank})</div>`;
-    }
-    document.getElementById("rankChangeDisplay").innerHTML = rankChangeHtml;
-    
-    // Build leaderboard HTML
-    let leaderboardHtml = '<div class="p-2">';
-    leaderboard.forEach((u, idx) => {
-        const rank = idx + 1;
-        let rankClass = '';
-        if (rank === 1) rankClass = 'rank-1-text';
-        else if (rank === 2) rankClass = 'rank-2-text';
-        else if (rank === 3) rankClass = 'rank-3-text';
-        
-        const isCurrentUser = u.ig === user.ig;
-        const userInitial = u.name ? u.name.charAt(0).toUpperCase() : (u.ig ? u.ig.charAt(0).toUpperCase() : '?');
-        
-        leaderboardHtml += `
+            const sortedPrev = [...previousLeaderboard].sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
+            const prevRank = sortedPrev.findIndex(u => u.ig === currentUser.ig) + 1;
+
+            const newLeaderboard = [...previousLeaderboard];
+            if (userIndex !== -1) {
+                newLeaderboard[userIndex].bestScore = currentScore;
+            } else {
+                newLeaderboard.push({ ...currentUser, bestScore: currentScore });
+            }
+            const sortedNew = newLeaderboard.sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
+            const newRank = sortedNew.findIndex(u => u.ig === currentUser.ig) + 1;
+
+            const change = prevRank - newRank;
+            return { change, prevRank, newRank };
+        }
+
+        async function showEndScreenWithLeaderboard() {
+            const leaderboard = await getLeaderboard();
+            const currentScore = score;
+            const oldBestScore = user.bestScore || 0;
+            const isNewHighScore = currentScore > oldBestScore;
+
+            document.getElementById("bestScoreDisplay").innerText = Math.max(oldBestScore, currentScore);
+
+            const { change, prevRank, newRank } = calculateRankChange(leaderboard, user, currentScore);
+
+            let rankChangeHtml = '';
+            if (change > 0) {
+                rankChangeHtml = `<div class="rank-change rank-up"><i class="fas fa-arrow-up"></i> Rank +${change} (${prevRank} → ${newRank})</div>`;
+            } else if (change < 0) {
+                rankChangeHtml = `<div class="rank-change rank-down"><i class="fas fa-arrow-down"></i> Rank ${change} (${prevRank} → ${newRank})</div>`;
+            } else {
+                rankChangeHtml = `<div class="rank-change rank-steady"><i class="fas fa-minus"></i> Rank unchanged (${newRank})</div>`;
+            }
+            document.getElementById("rankChangeDisplay").innerHTML = rankChangeHtml;
+
+            let leaderboardHtml = '<div class="p-2">';
+            leaderboard.forEach((u, idx) => {
+                const rank = idx + 1;
+                let rankClass = '';
+                if (rank === 1) rankClass = 'rank-1-text';
+                else if (rank === 2) rankClass = 'rank-2-text';
+                else if (rank === 3) rankClass = 'rank-3-text';
+
+                const isCurrentUser = u.ig === user.ig;
+                const userInitial = u.name ? u.name.charAt(0).toUpperCase() : (u.ig ? u.ig.charAt(0).toUpperCase() : '?');
+
+                leaderboardHtml += `
             <div class="leaderboard-item" style="${isCurrentUser ? 'background: linear-gradient(90deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); border-left: 3px solid #764ba2;' : ''}">
                 <div class="leaderboard-rank ${rankClass}">#${rank}</div>
                 <div class="leaderboard-avatar">${userInitial}</div>
@@ -873,65 +956,61 @@ async function showEndScreenWithLeaderboard() {
                 <div class="leaderboard-score">${u.bestScore || 0}</div>
             </div>
         `;
-    });
-    leaderboardHtml += '</div>';
-    
-    document.getElementById("endLeaderboard").innerHTML = leaderboardHtml;
-    document.getElementById("finalScore").innerText = currentScore;
-    document.getElementById("endEmoji").innerHTML = isNewHighScore ? "🏆✨" : "🎮";
-    document.getElementById("finalScoreTitle").innerHTML = isNewHighScore ? "New High Score!" : "Game Over!";
-}
+            });
+            leaderboardHtml += '</div>';
 
-function escapeHtml(text) {
-    if (!text) return '-';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
+            document.getElementById("endLeaderboard").innerHTML = leaderboardHtml;
+            document.getElementById("finalScore").innerText = currentScore;
+            document.getElementById("endEmoji").innerHTML = isNewHighScore ? "🏆✨" : "🎮";
+            document.getElementById("finalScoreTitle").innerHTML = isNewHighScore ? "New High Score!" : "Game Over!";
+        }
 
-async function endGame() {
-    gameActive = false;
-    clearInterval(gameTimer);
-    clearInterval(spawnInterval);
-    
-    activeBugs.forEach(interval => clearInterval(interval));
-    activeBugs = [];
-    document.getElementById("gameArea").innerHTML = "";
-    
-    try {
-        const res = await fetch("/updateScore", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ig: user.ig, score: score })
-        });
-        
-        const data = await res.json();
-        
-        user.bestScore = data.bestScore;
-        localStorage.setItem("currentUser", JSON.stringify(user));
-        
-        document.getElementById("gameScreen").style.display = "none";
-        document.getElementById("endScreen").style.display = "flex";
-        
-        await showEndScreenWithLeaderboard();
-        
-    } catch (error) {
-        console.error("Error saving score:", error);
-        document.getElementById("gameScreen").style.display = "none";
-        document.getElementById("endScreen").style.display = "flex";
-        document.getElementById("finalScore").innerText = score;
-        document.getElementById("endLeaderboard").innerHTML = '<div class="text-center p-3 text-danger">Unable to load leaderboard</div>';
-    }
-}
+        function escapeHtml(text) {
+            if (!text) return '-';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
-function logout() {
-    localStorage.removeItem("currentUser");
-    location.href = "login.html";
-}
+        async function endGame() {
+            gameActive = false;
+            clearInterval(gameTimer);
+            clearInterval(spawnInterval);
 
-function goToHome() {
-    location.reload();
-}
-</script>
+            activeBugs.forEach(interval => clearInterval(interval));
+            activeBugs = [];
+
+            try {
+                const res = await fetch("/updateScore", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ ig: user.ig, score: score })
+                });
+
+                const data = await res.json();
+
+                user.bestScore = data.bestScore;
+                localStorage.setItem("currentUser", JSON.stringify(user));
+
+                document.getElementById("gameScreen").style.display = "none";
+                document.getElementById("endScreen").style.display = "flex";
+
+                await showEndScreenWithLeaderboard();
+
+            } catch (error) {
+                console.error("Error saving score:", error);
+                document.getElementById("gameScreen").style.display = "none";
+                document.getElementById("endScreen").style.display = "flex";
+                document.getElementById("finalScore").innerText = score;
+                document.getElementById("endLeaderboard").innerHTML = '<div class="text-center p-3 text-danger">Unable to load leaderboard</div>';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("currentUser");
+            location.href = "login.html";
+        }
+    </script>
 </body>
+
 </html>
