@@ -1,398 +1,374 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-<meta charset="UTF-8">
-<title>Admin Panel 💜 Events Leaderboard</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel 💜 Events Leaderboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    padding: 2rem;
-    position: relative;
-}
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
 
-/* Animated background */
-.orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.3;
-    animation: floatOrb 20s ease-in-out infinite;
-}
+        /* Static background orbs (no animation) */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+        }
 
-.orb-1 {
-    top: -150px;
-    left: -150px;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, #f093fb, #f5576c);
-}
+        .orb-1 {
+            top: -150px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #f093fb, #f5576c);
+        }
 
-.orb-2 {
-    bottom: -150px;
-    right: -150px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, #4facfe, #00f2fe);
-    animation-delay: -5s;
-}
+        .orb-2 {
+            bottom: -150px;
+            right: -150px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #4facfe, #00f2fe);
+        }
 
-.orb-3 {
-    top: 50%;
-    left: 50%;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, #43e97b, #38f9d7);
-    animation-delay: -10s;
-    transform: translate(-50%, -50%);
-}
+        .orb-3 {
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #43e97b, #38f9d7);
+            transform: translate(-50%, -50%);
+        }
 
-@keyframes floatOrb {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -30px) scale(1.2); }
-    66% { transform: translate(-20px, 20px) scale(0.8); }
-}
+        .admin-card {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            border-radius: 32px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
 
-.admin-card {
-    position: relative;
-    z-index: 1;
-    max-width: 1400px;
-    margin: 0 auto;
-    border-radius: 32px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-    animation: slideIn 0.5s ease;
-}
+        .card-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 2rem;
+            color: white;
+        }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        .table-container {
+            padding: 2rem;
+            overflow-x: auto;
+        }
 
-.card-header {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    padding: 2rem;
-    color: white;
-}
+        .table {
+            margin-bottom: 0;
+            border-radius: 16px;
+            overflow: hidden;
+        }
 
-.table-container {
-    padding: 2rem;
-    overflow-x: auto;
-}
+        .table thead th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            padding: 1rem;
+            border: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-.table {
-    margin-bottom: 0;
-    border-radius: 16px;
-    overflow: hidden;
-}
+        .table tbody tr {
+            transition: background 0.2s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
 
-.table thead th {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    font-weight: 600;
-    padding: 1rem;
-    border: none;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+        .table tbody tr:hover {
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.06), rgba(118, 75, 162, 0.06));
+        }
 
-.table tbody tr {
-    transition: all 0.3s ease;
-    border-bottom: 1px solid #f0f0f0;
-    animation: rowFadeIn 0.3s ease forwards;
-    opacity: 0;
-}
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            font-weight: 500;
+        }
 
-@keyframes rowFadeIn {
-    from {
-        opacity: 0;
-        transform: translateX(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
+        /* Rank badges - static, no animation */
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
 
-.table tbody tr:hover {
-    background: linear-gradient(90deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
-    transform: scale(1.01);
-}
+        .rank-1 {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #856404;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+        }
 
-.table tbody td {
-    padding: 1rem;
-    vertical-align: middle;
-    font-weight: 500;
-}
+        .rank-2 {
+            background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+            color: #5a5a5a;
+            box-shadow: 0 2px 8px rgba(192, 192, 192, 0.3);
+        }
 
-.rank-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    font-weight: bold;
-    font-size: 1.3rem;
-    animation: bounceIn 0.5s ease;
-}
+        .rank-3 {
+            background: linear-gradient(135deg, #cd7f32, #e8a962);
+            color: #5a3a1a;
+            box-shadow: 0 2px 8px rgba(205, 127, 50, 0.3);
+        }
 
-@keyframes bounceIn {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
+        /* Non-animated rank for others */
+        .rank-other {
+            background: #f3f4f6;
+            color: #6b7280;
+            font-weight: 700;
+            font-size: 1rem;
+        }
 
-.rank-1 { 
-    background: linear-gradient(135deg, #ffd700, #ffed4e);
-    color: #856404;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-}
-.rank-2 { 
-    background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
-    color: #5a5a5a;
-    box-shadow: 0 4px 15px rgba(192, 192, 192, 0.4);
-}
-.rank-3 { 
-    background: linear-gradient(135deg, #cd7f32, #e8a962);
-    color: #5a3a1a;
-    box-shadow: 0 4px 15px rgba(205, 127, 50, 0.4);
-}
+        .score-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
 
-.score-badge {
-    display: inline-block;
-    padding: 8px 20px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    border-radius: 30px;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
+        .score-badge:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
 
-.score-badge:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-}
+        .btn-logout {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 12px 28px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
 
-.btn-logout {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-    border: none;
-    border-radius: 40px;
-    padding: 12px 28px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
+        .btn-logout:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.35);
+        }
 
-.btn-logout:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
-}
+        /* Simple refresh indicator - no animation */
+        .refresh-indicator {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            color: #764ba2;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+        }
 
-.refresh-indicator {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 10px 20px;
-    border-radius: 40px;
-    font-size: 0.85rem;
-    color: #764ba2;
-    font-weight: 600;
-    backdrop-filter: blur(10px);
-    z-index: 10;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    animation: pulse 2s infinite;
-}
+        .faculty-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
 
-@keyframes pulse {
-    0%, 100% {
-        box-shadow: 0 4px 15px rgba(118, 75, 162, 0.2);
-    }
-    50% {
-        box-shadow: 0 4px 25px rgba(118, 75, 162, 0.5);
-    }
-}
+        .faculty-badge:hover {
+            background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+        }
 
-.faculty-badge {
-    display: inline-block;
-    padding: 6px 14px;
-    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-    border-radius: 20px;
-    font-size: 0.8rem;
-    color: #4b5563;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
+        .loading-spinner {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(102, 126, 234, 0.2);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 0.6s linear infinite;
+        }
 
-.faculty-badge:hover {
-    transform: translateY(-1px);
-    background: linear-gradient(135deg, #e5e7eb, #d1d5db);
-}
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
-.loading-spinner {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(102, 126, 234, 0.3);
-    border-radius: 50%;
-    border-top-color: #667eea;
-    animation: spin 0.8s linear infinite;
-}
+        .stat-total {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
 
-.stat-total {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-}
+            .card-header {
+                padding: 1.25rem;
+            }
 
-/* Responsive */
-@media (max-width: 768px) {
-    body {
-        padding: 1rem;
-    }
-    
-    .card-header {
-        padding: 1.5rem;
-    }
-    
-    .table-container {
-        padding: 1rem;
-    }
-    
-    .table thead th,
-    .table tbody td {
-        padding: 0.75rem 0.5rem;
-        font-size: 0.75rem;
-    }
-    
-    .rank-badge {
-        width: 32px;
-        height: 32px;
-        font-size: 1rem;
-    }
-    
-    .score-badge {
-        padding: 4px 12px;
-        font-size: 0.8rem;
-    }
-    
-    .btn-logout {
-        padding: 8px 16px;
-        font-size: 0.8rem;
-    }
-}
-</style>
+            .card-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .table-container {
+                padding: 1rem;
+            }
+
+            .table thead th,
+            .table tbody td {
+                padding: 0.6rem 0.4rem;
+                font-size: 0.7rem;
+            }
+
+            .rank-badge {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+
+            .score-badge {
+                padding: 4px 12px;
+                font-size: 0.75rem;
+            }
+
+            .btn-logout {
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+
+            .faculty-badge {
+                padding: 3px 8px;
+                font-size: 0.65rem;
+            }
+
+            .refresh-indicator {
+                bottom: 15px;
+                right: 15px;
+                padding: 6px 14px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
-<div class="container">
-    <div class="admin-card">
-        <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                <div>
-                    <h2 class="mb-1" style="font-weight: 800;">
-                        <i class="fas fa-crown me-2"></i>Admin Leaderboard
-                    </h2>
-                    <p class="mb-0 opacity-75">
-                        <i class="fas fa-chart-line me-1"></i>Real-time ranking of all players
-                        <span class="stat-total ms-2" id="totalPlayers">0 Players</span>
-                    </p>
+    <div class="container">
+        <div class="admin-card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div>
+                        <h2 class="mb-1" style="font-weight: 800;">
+                            <i class="fas fa-crown me-2"></i>Admin Leaderboard
+                        </h2>
+                        <p class="mb-0 opacity-75">
+                            <i class="fas fa-chart-line me-1"></i>Real-time ranking of all players
+                            <span class="stat-total ms-2" id="totalPlayers">0 Players</span>
+                        </p>
+                    </div>
+                    <button class="btn-logout" onclick="logout()">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </button>
                 </div>
-                <button class="btn-logout" onclick="logout()">
-                    <i class="fas fa-sign-out-alt me-2"></i>Logout
-                </button>
             </div>
-        </div>
-        
-        <div class="table-container">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th><i class="fas fa-trophy me-1"></i> Rank</th>
-                            <th><i class="fas fa-user me-1"></i> Name</th>
-                            <th><i class="fab fa-instagram me-1"></i> Instagram</th>
-                            <th><i class="fas fa-lock me-1"></i> Password</th>
-                            <th><i class="fas fa-university me-1"></i> Faculty</th>
-                            <th><i class="fas fa-calendar me-1"></i> Year</th>
-                            <th><i class="fas fa-star me-1"></i> Best Score</th>
-                        </tr>
-                    </thead>
-                    <tbody id="userTable">
-                        <tr>
-                            <td colspan="7" class="text-center py-5">
-                                <div class="loading-spinner"></div>
-                                <p class="mt-3 text-muted">Loading leaderboard...</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-trophy me-1"></i> Rank</th>
+                                <th><i class="fas fa-user me-1"></i> Name</th>
+                                <th><i class="fab fa-instagram me-1"></i> Instagram</th>
+                                <th><i class="fas fa-lock me-1"></i> Password</th>
+                                <th><i class="fas fa-university me-1"></i> Faculty</th>
+                                <th><i class="fas fa-calendar me-1"></i> Year</th>
+                                <th><i class="fas fa-star me-1"></i> Best Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTable">
+                            <tr>
+                                <td colspan="7" class="text-center py-5">
+                                    <div class="loading-spinner"></div>
+                                    <p class="mt-3 text-muted">Loading leaderboard...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="refresh-indicator">
-    <i class="fas fa-sync-alt fa-fw me-1"></i>
-    <span>Auto-refresh: 1s</span>
-</div>
+    <div class="refresh-indicator">
+        <i class="fas fa-sync-alt fa-fw me-1"></i>
+        <span>Auto-refresh: 1s</span>
+    </div>
 
-<script>
-const user = JSON.parse(localStorage.getItem("currentUser"));
+    <script>
+        const user = JSON.parse(localStorage.getItem("currentUser"));
 
-// Admin guard
-if (!user || !user.isAdmin) {
-    location.href = "login.html";
-}
+        // Admin guard
+        if (!user || !user.isAdmin) {
+            location.href = "login.html";
+        }
 
-async function loadUsers() {
-    try {
-        const res = await fetch("/users");
-        const data = await res.json();
-        
-        const table = document.getElementById("userTable");
-        
-        if (!data || data.length === 0) {
-            table.innerHTML = `
+        async function loadUsers() {
+            try {
+                const res = await fetch("/users");
+                const data = await res.json();
+
+                const table = document.getElementById("userTable");
+
+                if (!data || data.length === 0) {
+                    table.innerHTML = `
                 <tr>
                     <td colspan="7" class="text-center py-5">
                         <i class="fas fa-users fa-3x text-muted mb-3 d-block"></i>
@@ -401,82 +377,86 @@ async function loadUsers() {
                     </td>
                 </tr>
             `;
-            document.getElementById("totalPlayers").innerText = "0 Players";
-            return;
-        }
-        
-        let rank = 1;
-        const sortedUsers = [...data].sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
-        document.getElementById("totalPlayers").innerText = `${sortedUsers.length} Players`;
-        
-        table.innerHTML = sortedUsers.map((u, index) => {
-            let rankClass = "";
-            let rankIcon = "";
-            
-            if (rank === 1) {
-                rankClass = "rank-1";
-                rankIcon = "👑";
-            } else if (rank === 2) {
-                rankClass = "rank-2";
-                rankIcon = "🥈";
-            } else if (rank === 3) {
-                rankClass = "rank-3";
-                rankIcon = "🥉";
-            } else {
-                rankIcon = `${rank}`;
-            }
-            
-            const rowAnimationDelay = index * 0.03;
-            
-            const row = `
-                <tr style="animation-delay: ${rowAnimationDelay}s;">
+                    document.getElementById("totalPlayers").innerText = "0 Players";
+                    return;
+                }
+
+                let rank = 1;
+                const sortedUsers = [...data].sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
+                document.getElementById("totalPlayers").innerText = `${sortedUsers.length} Players`;
+
+                table.innerHTML = sortedUsers.map((u) => {
+                    let rankClass = "";
+                    let rankIcon = "";
+                    let isSpecialRank = false;
+
+                    if (rank === 1) {
+                        rankClass = "rank-1";
+                        rankIcon = "👑";
+                        isSpecialRank = true;
+                    } else if (rank === 2) {
+                        rankClass = "rank-2";
+                        rankIcon = "🥈";
+                        isSpecialRank = true;
+                    } else if (rank === 3) {
+                        rankClass = "rank-3";
+                        rankIcon = "🥉";
+                        isSpecialRank = true;
+                    } else {
+                        rankClass = "rank-other";
+                        rankIcon = `${rank}`;
+                    }
+
+                    const row = `
+                <tr>
                     <td>
                         <div class="rank-badge ${rankClass}">
-                            ${rank <= 3 ? rankIcon : rankIcon}
+                            ${rankIcon}
                         </div>
                     </td>
                     <td><strong>${escapeHtml(u.name || '-')}</strong></td>
                     <td><i class="fab fa-instagram me-1" style="color: #e4405f;"></i> ${escapeHtml(u.ig)}</td>
-                    <td><code style="background: #f3f4f6; padding: 5px 10px; border-radius: 10px; font-size: 0.75rem;">••••••••</code></td>
+                    <td><code style="background: #f3f4f6; padding: 5px 10px; border-radius: 10px; font-size: 0.7rem;">••••••••</code></td>
                     <td><span class="faculty-badge">${escapeHtml(u.faculty || '-')}</span></td>
                     <td>${escapeHtml(u.year || '-')}</td>
                     <td><span class="score-badge">${u.bestScore || 0}</span></td>
                 </tr>
             `;
-            
-            rank++;
-            return row;
-        }).join('');
-        
-    } catch (error) {
-        console.error("Error loading users:", error);
-        document.getElementById("userTable").innerHTML = `
+
+                    rank++;
+                    return row;
+                }).join('');
+
+            } catch (error) {
+                console.error("Error loading users:", error);
+                document.getElementById("userTable").innerHTML = `
             <tr>
                 <td colspan="7" class="text-center py-5 text-danger">
                     <i class="fas fa-exclamation-triangle fa-3x mb-3 d-block"></i>
                     <p class="fw-bold">Error loading data</p>
                     <small>Please check your connection and try again.</small>
-                 </td>
+                </td>
             </tr>
         `;
-    }
-}
+            }
+        }
 
-function escapeHtml(text) {
-    if (!text) return '-';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
+        function escapeHtml(text) {
+            if (!text) return '-';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
-// Auto-refresh every second
-setInterval(loadUsers, 1000);
-loadUsers();
+        // Auto-refresh every second
+        setInterval(loadUsers, 1000);
+        loadUsers();
 
-function logout() {
-    localStorage.removeItem("currentUser");
-    location.href = "login.html";
-}
-</script>
+        function logout() {
+            localStorage.removeItem("currentUser");
+            location.href = "login.html";
+        }
+    </script>
 </body>
+
 </html>
