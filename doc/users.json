@@ -9,6 +9,15 @@
     "isAdmin": true
   },
   {
+    "name": "Edelweiss_Admin",
+    "ig": "@Edelweiss_Admin",
+    "password": "Edelweiss_Admin1267",
+    "faculty": "System",
+    "year": "Admin",
+    "bestScore": 0,
+    "isAdmin": true
+  },
+  {
     "name": "Mona",
     "ig": "@Mona",
     "password": "123456",
