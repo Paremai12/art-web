@@ -211,7 +211,7 @@
             box-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
         }
 
-        /* Game Area - IMPORTANT FIX */
+        /* Game Area */
         .game-area {
             flex: 1;
             margin: 0 1.5rem 1.5rem 1.5rem;
@@ -238,6 +238,37 @@
         .bug:hover {
             transform: scale(1.3);
             filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+        }
+
+        /* Guinea Pig styling */
+        .guinea-pig {
+            position: absolute;
+            font-size: 5rem;
+            cursor: pointer;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+            z-index: 15;
+            transition: transform 0.1s ease;
+            animation: shake 0.3s ease-in-out infinite;
+        }
+
+        .guinea-pig:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(5deg);
+            }
+
+            75% {
+                transform: rotate(-5deg);
+            }
         }
 
         .hit-effect {
@@ -277,6 +308,33 @@
             100% {
                 transform: translateY(-80px) scale(1.2);
                 opacity: 0;
+            }
+        }
+
+        /* Screen shake effect */
+        .shake-screen {
+            animation: screenShake 0.3s ease-in-out;
+        }
+
+        @keyframes screenShake {
+            0% {
+                transform: translate(1px, 1px);
+            }
+
+            25% {
+                transform: translate(-1px, -2px);
+            }
+
+            50% {
+                transform: translate(-2px, 1px);
+            }
+
+            75% {
+                transform: translate(2px, -1px);
+            }
+
+            100% {
+                transform: translate(0, 0);
             }
         }
 
@@ -418,6 +476,17 @@
             color: #d97706;
         }
 
+        /* Danger badge for guinea pig */
+        .danger-badge {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -516,6 +585,10 @@
                 font-size: 2rem;
             }
 
+            .guinea-pig {
+                font-size: 3.5rem;
+            }
+
             .game-header {
                 margin: 0.5rem 1rem 0 1rem;
             }
@@ -560,6 +633,9 @@
                             style="margin-left: auto; font-weight: 700; color: #f59e0b;">+10</span></li>
                     <li><span class="bug-icon">🕷️</span> Spider <span
                             style="margin-left: auto; font-weight: 700; color: #ef4444;">-2</span></li>
+                    <li><span class="bug-icon">🐹💀</span> <strong style="color: #dc2626;">GUINEA PIG (DANGER!)</strong>
+                        <span style="margin-left: auto; font-weight: 700; color: #dc2626;">SCORE RESET → 0</span>
+                    </li>
                 </ul>
 
                 <div class="mb-3"
@@ -567,6 +643,13 @@
                     <span style="font-weight: 700;">🔥 Combo System:</span>
                     <span class="text-muted" style="font-size: 0.85rem;">Click fast to build combo! +1 per 3
                         combo</span>
+                </div>
+
+                <div class="mb-3"
+                    style="background: linear-gradient(135deg, #fee2e2, #fecaca); padding: 12px; border-radius: 20px;">
+                    <span style="font-weight: 700; color: #dc2626;">⚠️ WARNING:</span>
+                    <span class="text-muted" style="font-size: 0.85rem;">Don't click the Guinea Pig! It will reset your
+                        score to ZERO!</span>
                 </div>
 
                 <button class="btn-game" onclick="startGame()">
@@ -624,7 +707,7 @@
                 </div>
             </div>
 
-            <!-- GAME AREA - แก้ไขให้แสดงผลชัดเจน -->
+            <!-- GAME AREA -->
             <div id="gameArea" class="game-area">
                 <div
                     style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(255,255,255,0.5); text-align: center; pointer-events: none;">
@@ -685,6 +768,10 @@
         <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
     </audio>
 
+    <audio id="resetSound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/cartoon-boo-01.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         // Game variables
         let score = 0, time = 120, combo = 0, lastClickTime = 0;
@@ -692,7 +779,9 @@
         let gameTimer = null;
         let currentSpeed = 600;
         let spawnInterval = null;
+        let guineaPigInterval = null;
         let activeBugs = [];
+        let activeGuineaPigs = [];
 
         const user = JSON.parse(localStorage.getItem("currentUser"));
         if (!user) location.href = "login.html";
@@ -713,6 +802,45 @@
             const audio = document.getElementById("clickSound");
             audio.currentTime = 0;
             audio.play().catch(e => console.log("Audio play failed:", e));
+        }
+
+        function playResetSound() {
+            const audio = document.getElementById("resetSound");
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log("Audio play failed:", e));
+        }
+
+        function shakeScreen() {
+            const gameArea = document.getElementById("gameArea");
+            gameArea.classList.add("shake-screen");
+            setTimeout(() => {
+                gameArea.classList.remove("shake-screen");
+            }, 300);
+        }
+
+        function resetScore() {
+            score = 0;
+            combo = 0;
+            lastClickTime = 0;
+            updateUI();
+            playResetSound();
+            shakeScreen();
+
+            // Create explosion effect
+            const gameArea = document.getElementById("gameArea");
+            const rect = gameArea.getBoundingClientRect();
+            for (let i = 0; i < 20; i++) {
+                const effect = document.createElement('div');
+                effect.className = 'hit-effect';
+                effect.style.left = Math.random() * rect.width + 'px';
+                effect.style.top = Math.random() * rect.height + 'px';
+                effect.style.width = '30px';
+                effect.style.height = '30px';
+                effect.style.background = 'radial-gradient(circle, #ef4444, #dc2626)';
+                effect.style.position = 'absolute';
+                gameArea.appendChild(effect);
+                setTimeout(() => effect.remove(), 400);
+            }
         }
 
         function updateUI() {
@@ -739,16 +867,98 @@
             setTimeout(() => effect.remove(), 400);
         }
 
-        function createScorePopup(x, y, points) {
+        function createScorePopup(x, y, points, isReset = false) {
             const popup = document.createElement('div');
             popup.className = 'score-pop';
-            popup.innerText = points > 0 ? `+${points}` : `${points}`;
-            popup.style.color = points > 0 ? '#10b981' : '#ef4444';
+            if (isReset) {
+                popup.innerText = '💀 SCORE RESET! 💀';
+                popup.style.color = '#dc2626';
+                popup.style.fontSize = '1.2rem';
+                popup.style.whiteSpace = 'nowrap';
+            } else {
+                popup.innerText = points > 0 ? `+${points}` : `${points}`;
+                popup.style.color = points > 0 ? '#10b981' : '#ef4444';
+            }
             popup.style.left = x + 'px';
             popup.style.top = y + 'px';
             popup.style.position = 'absolute';
             document.getElementById("gameArea").appendChild(popup);
             setTimeout(() => popup.remove(), 1000);
+        }
+
+        function spawnGuineaPig() {
+            if (!gameActive) return;
+
+            const gameArea = document.getElementById("gameArea");
+            const areaRect = gameArea.getBoundingClientRect();
+
+            if (areaRect.width === 0 || areaRect.height === 0) return;
+
+            const guineaPig = document.createElement("div");
+            guineaPig.className = "guinea-pig";
+            guineaPig.innerText = "🐹💀";
+
+            // Start from left or right
+            const startFromRight = Math.random() > 0.5;
+            let x = startFromRight ? areaRect.width - 80 : -80;
+            let y = Math.random() * (areaRect.height - 100);
+            guineaPig.style.left = x + "px";
+            guineaPig.style.top = Math.max(0, Math.min(areaRect.height - 100, y)) + "px";
+
+            const direction = startFromRight ? -8 : 8;
+            const speed = 8;
+
+            const moveInterval = setInterval(() => {
+                if (!gameActive || !guineaPig.parentNode) {
+                    clearInterval(moveInterval);
+                    return;
+                }
+
+                let newX = parseFloat(guineaPig.style.left) + direction;
+
+                // Remove when off screen
+                if ((direction > 0 && newX > areaRect.width) || (direction < 0 && newX < -100)) {
+                    clearInterval(moveInterval);
+                    if (guineaPig.parentNode) guineaPig.remove();
+                    const index = activeGuineaPigs.indexOf(moveInterval);
+                    if (index > -1) activeGuineaPigs.splice(index, 1);
+                    return;
+                }
+
+                guineaPig.style.left = newX + "px";
+            }, 50);
+
+            guineaPig.onclick = (e) => {
+                e.stopPropagation();
+                if (!gameActive) return;
+
+                const rect = guineaPig.getBoundingClientRect();
+                const areaRectBounds = gameArea.getBoundingClientRect();
+                const hitX = rect.left - areaRectBounds.left + rect.width / 2;
+                const hitY = rect.top - areaRectBounds.top + rect.height / 2;
+
+                createHitEffect(hitX, hitY);
+                createScorePopup(hitX, hitY, 0, true);
+                resetScore();
+
+                clearInterval(moveInterval);
+                guineaPig.remove();
+                const index = activeGuineaPigs.indexOf(moveInterval);
+                if (index > -1) activeGuineaPigs.splice(index, 1);
+            };
+
+            gameArea.appendChild(guineaPig);
+            activeGuineaPigs.push(moveInterval);
+
+            // Auto-remove after 6 seconds
+            setTimeout(() => {
+                if (guineaPig.parentNode) {
+                    clearInterval(moveInterval);
+                    guineaPig.remove();
+                    const idx = activeGuineaPigs.indexOf(moveInterval);
+                    if (idx > -1) activeGuineaPigs.splice(idx, 1);
+                }
+            }, 6000);
         }
 
         function spawnBug() {
@@ -859,6 +1069,7 @@
             currentSpeed = 600;
             lastClickTime = 0;
             activeBugs = [];
+            activeGuineaPigs = [];
             updateUI();
 
             gameTimer = setInterval(() => {
@@ -879,6 +1090,13 @@
             }, 1000);
 
             spawnInterval = setInterval(() => spawnBug(), currentSpeed);
+
+            // Spawn Guinea Pig every 8-12 seconds
+            guineaPigInterval = setInterval(() => {
+                if (gameActive) {
+                    spawnGuineaPig();
+                }
+            }, 10000);
         }
 
         async function getLeaderboard() {
@@ -895,8 +1113,6 @@
         function calculateRankChange(leaderboard, currentUser, currentScore) {
             const previousLeaderboard = [...leaderboard];
             const userIndex = previousLeaderboard.findIndex(u => u.ig === currentUser.ig);
-
-            let oldScore = currentUser.bestScore || 0;
 
             const sortedPrev = [...previousLeaderboard].sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
             const prevRank = sortedPrev.findIndex(u => u.ig === currentUser.ig) + 1;
@@ -976,9 +1192,12 @@
             gameActive = false;
             clearInterval(gameTimer);
             clearInterval(spawnInterval);
+            clearInterval(guineaPigInterval);
 
             activeBugs.forEach(interval => clearInterval(interval));
+            activeGuineaPigs.forEach(interval => clearInterval(interval));
             activeBugs = [];
+            activeGuineaPigs = [];
 
             try {
                 const res = await fetch("/updateScore", {
